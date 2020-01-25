@@ -4,6 +4,28 @@ class Game {
         this.gamePoints = 0;
         this.context = options.context
         this.bullets = []
+        this.zombies = []
+    }
+
+    _generateZombies(){
+        setInterval(function(){            
+            let newZombieFrom = Math.round(Math.random() * 4)
+            switch (newZombieFrom) {
+                case 1:                 
+                    this.zombies.push(new Zombie([Math.random() * 500, 500], "w"))
+                    break;
+                case 2:
+                    this.zombies.push(new Zombie([Math.random() * 500, -20], "s"))
+                    break;
+                case 3:
+                    this.zombies.push(new Zombie([500, Math.random() * 500], "a"))
+                    break;
+                case 4:
+                    this.zombies.push(new Zombie([-20, Math.random() * 500], "d"))
+                    break;
+                }
+        }.bind(this), 1000);
+
     }
     
     _drawPlayer(){
@@ -12,6 +34,7 @@ class Game {
         this.context.fillStyle = "green";
         this.context.fillRect(playerPosition[0], playerPosition[1], playerSize, playerSize);
     };
+    
 
     _drawShoot(){
         this.bullets.forEach(bullet => {
@@ -34,10 +57,21 @@ class Game {
         });
     };
 
+
+    _drawZombies(){
+        this.zombies.forEach(zombie => {
+
+            this.context.fillStyle = "black";
+            this.context.fillRect(zombie.position[0], zombie.position[1], zombie.size, zombie.size);
+            
+        });
+    };
+
     _update(){
         this._cleanCanvas();
         this._drawPlayer();
         this._drawShoot();
+        this._drawZombies();
         this._canvasLoop();
     }
 
@@ -91,5 +125,6 @@ class Game {
     start(){
         this._canvasLoop();
         this._assignControlsToKeys();
+        this._generateZombies();
     };
 }

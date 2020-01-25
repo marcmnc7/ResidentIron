@@ -54,9 +54,11 @@ Html5 __Canvas__ and Vanilla __Javascript__
 - Meterle buenos graficos a todo.
 - Poner efectos de sonido y musica de fondo.
 - Poder pausar el juego
+- Que cada vez salgan mas zombies, exponencialmente.
 - Poder elegir la velocidad de creacion y andadura de los zombies.
 - Que cuando los zombies reciben un disparo tengan efecto de regresion,...
 - Que los obstaculos se puedan romper.
+- Contador de tiempo durante el juego
 - Que tenga mas angulos que 4. Es decir, si pulsa tecla arriba y derecha a la vez, que vaya a 45 grados.
 - Etc.
 
