@@ -57,6 +57,7 @@ Html5 __Canvas__ and Vanilla __Javascript__
 - Poder elegir la velocidad de creacion y andadura de los zombies.
 - Que cuando los zombies reciben un disparo tengan efecto de regresion,...
 - Que los obstaculos se puedan romper.
+- Que tenga mas angulos que 4. Es decir, si pulsa tecla arriba y derecha a la vez, que vaya a 45 grados.
 - Etc.
 
 
