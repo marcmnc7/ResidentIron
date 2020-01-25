@@ -3,6 +3,7 @@ class Game {
         this.player = options.player
         this.gamePoints = 0;
         this.context = options.context
+        this.bullets = []
     }
     
     _drawPlayer(){
@@ -12,9 +13,31 @@ class Game {
         this.context.fillRect(playerPosition[0], playerPosition[1], playerSize, playerSize);
     };
 
+    _drawShoot(){
+        this.bullets.forEach(bullet => {
+
+            this.context.fillStyle = "red";
+            this.context.fillRect(bullet.position[0], bullet.position[1], bullet.size, bullet.size);
+            console.log(bullet.direction)
+            
+            if (bullet.direction == "w" || bullet.direction == "s") {
+                if(bullet.initialPosition[1] > bullet.position[1]+bullet.maxBulletDistance || bullet.initialPosition[1] < bullet.position[1]-bullet.maxBulletDistance){
+                    bullet._destroy()
+                    this.bullets.splice(this.bullets.indexOf(bullet), 1)
+                }
+            } else{
+                if(bullet.initialPosition[0] > bullet.position[0]+bullet.maxBulletDistance || bullet.initialPosition[0] < bullet.position[0]-bullet.maxBulletDistance){
+                    bullet._destroy()
+                    this.bullets.splice(this.bullets.indexOf(bullet), 1)
+                }
+            }
+        });
+    };
+
     _update(){
         this._cleanCanvas();
         this._drawPlayer();
+        this._drawShoot();
         this._canvasLoop();
     }
 
@@ -37,6 +60,9 @@ class Game {
                     break;
                 case 39: // arrow right
                     this.player.move("d");
+                    break;
+                case 32: // space
+                    this.bullets.push(new Bullet(this.player.position, this.player.direction));
                     break;
             }
         });

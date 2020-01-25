@@ -10,7 +10,6 @@ class Player {
       this.moveIntervalRight = undefined;
     }
     
-
     inBorders(){
       let yesNo = false
       if (this.position[0] >= (500-this.size)){
@@ -69,10 +68,6 @@ class Player {
       }
     };
 
-    moveUp(){
-      
-    }
-
     stop(direction){
       switch (direction) {
         case "w":
@@ -94,7 +89,6 @@ class Player {
       }
     }
 
-    shoot(){};
     checkCollision(){};
     die(){};
 
