@@ -36,12 +36,11 @@ class Game {
     };
     
 
-    _drawShoot(){
+    _drawBullets(){
         this.bullets.forEach(bullet => {
 
             this.context.fillStyle = "red";
             this.context.fillRect(bullet.position[0], bullet.position[1], bullet.size, bullet.size);
-            console.log(bullet.direction)
             
             if (bullet.direction == "w" || bullet.direction == "s") {
                 if(bullet.initialPosition[1] > bullet.position[1]+bullet.maxBulletDistance || bullet.initialPosition[1] < bullet.position[1]-bullet.maxBulletDistance){
@@ -63,14 +62,20 @@ class Game {
 
             this.context.fillStyle = "black";
             this.context.fillRect(zombie.position[0], zombie.position[1], zombie.size, zombie.size);
-            
+            let hitBullet = zombie._recievesBullet(this.bullets)
+            if(hitBullet){
+                hitBullet._destroy();
+                this.bullets.splice(this.bullets.indexOf(hitBullet))
+                zombie._destroy();
+                this.zombies.splice(this.zombies.indexOf(zombie), 1)
+            }
         });
     };
 
     _update(){
         this._cleanCanvas();
         this._drawPlayer();
-        this._drawShoot();
+        this._drawBullets();
         this._drawZombies();
         this._canvasLoop();
     }

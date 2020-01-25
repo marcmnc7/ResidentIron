@@ -13,6 +13,7 @@ class Bullet{
         clearInterval(this.intervalShoot)
     }
 
+
     _move(direction){
         switch (direction) {
             case "w":
