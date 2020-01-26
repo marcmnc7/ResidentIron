@@ -11,7 +11,7 @@ class Game {
         setInterval(function(){            
             let newZombieFrom = Math.round(Math.random() * 4)
             switch (newZombieFrom) {
-                case 1:                 
+                case 1:
                     this.zombies.push(new Zombie([Math.random() * 500, 500], "w"))
                     break;
                 case 2:
@@ -69,14 +69,17 @@ class Game {
                 zombie._destroy();
                 this.zombies.splice(this.zombies.indexOf(zombie), 1)
             }
+            if(zombie.hit(this.player)){
+                this.player.die()
+            }
         });
     };
 
     _update(){
         this._cleanCanvas();
-        this._drawPlayer();
         this._drawBullets();
         this._drawZombies();
+        this._drawPlayer();
         this._canvasLoop();
     }
 

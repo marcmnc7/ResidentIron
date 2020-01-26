@@ -4,12 +4,17 @@ class Zombie{
         this.direction = direction;
         this._move(direction);
         this.size = 20;
-        this.intervalMove = undefined; 
+        this.intervalMove = undefined;
+        this.canHit = true;
+        this.hitVelocity = 1000;
     }
 
+    _blockHit(){
+        this.canHit = false
+        setTimeout(function(){this.canHit = true }.bind(this), this.hitVelocity);
+    }
 
     _destroy(){
-        console.log(this.intervalMove)
         clearInterval(this.intervalMove)
     }
     
@@ -22,9 +27,22 @@ class Zombie{
                 this.position[1] + this.size > bullet.position[1]) {
                     console.log("Collision")
                     return bullet
-            }
+                }
             return false
         }
+    }
+        
+    hit(player){
+        if (this.canHit){
+            if (this.position[0] < player.position[0] + player.size &&
+                this.position[0] + this.size > player.position[0] &&
+                this.position[1] < player.position[1] + player.size &&
+                this.position[1] + this.size > player.position[1]) {
+                    this._blockHit()
+                    return true
+                }
+            return false
+        }        
     }
 
     _move(direction){

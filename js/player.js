@@ -89,7 +89,13 @@ class Player {
       }
     }
 
-    checkCollision(){};
-    die(){};
+    die(){
+      console.log("die")
+      
+      /*clearInterval(this.moveIntervalDown)
+      clearInterval(this.moveIntervalUp)
+      clearInterval(this.moveIntervalRight)
+      clearInterval(this.moveIntervalLeft)*/
+    };
 
 }
