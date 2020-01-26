@@ -10,12 +10,17 @@
 </head>
 
 <body>
+  <div id="startScreen">
+    <button id="start_game">Jugar</button>
+  </div>
   <div id ="game">
-    <canvas id="canvas" width="500" height="500"></canvas>
+    <canvas id="canvas" width="500", height="500"></canvas>
     <p id="points"></p>
   </div>
-  <div id="gameover" style="display: none">
-    Game Over
+  <div id="gameOverScreen">
+    <p>Game Over</p>
+    <button id="toHome">Return HOME</button>
+    <button id="playAgain">Play Again</button>
   </div>
   <script src="js/game.js"></script>
   <script src="js/bullet.js"></script>

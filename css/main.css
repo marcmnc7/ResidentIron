@@ -12,3 +12,15 @@ canvas {
     height: 600px;
     background-color: bisque;
 }
+
+#startScreen{
+    display: block;
+}
+
+#game{
+    display: none;
+}
+
+#gameOverScreen{
+    display: none;
+}

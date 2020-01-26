@@ -1,14 +1,16 @@
 class Game {
     constructor(options) {
-        this.player = options.player
+        this.player = options.player;
         this.gamePoints = 0;
-        this.context = options.context
-        this.bullets = []
-        this.zombies = []
+        this.context = options.context;
+        this.bullets = [];
+        this.zombies = [];
+        this.canvas_loop = undefined;
+        this.zombies_loop = undefined;
     }
 
     _generateZombies(){
-        setInterval(function(){            
+        return setInterval(function(){            
             let newZombieFrom = Math.round(Math.random() * 4)
             switch (newZombieFrom) {
                 case 1:
@@ -72,12 +74,16 @@ class Game {
                 this.zombies.splice(this.zombies.indexOf(zombie), 1)
             }
             if(zombie.hit(this.player)){
+                this._stop() // IMPROVE! Update keeps running.
                 this.player.die()
+                document.getElementById("gameOverScreen").style.display = "block";
+                document.getElementById("game").style.display = "none";
             }
         });
     };
 
     _update(){
+        console.log("Update")
         this._cleanCanvas();
         this._drawBullets();
         this._drawZombies();
@@ -85,8 +91,9 @@ class Game {
         this._canvasLoop();
     }
 
+
     _canvasLoop(){
-        this.interval = window.requestAnimationFrame(this._update.bind(this));
+        return window.requestAnimationFrame(this._update.bind(this));
     };
 
 
@@ -132,9 +139,16 @@ class Game {
         this.context.clearRect(0, 0, 500, 500)
     }
 
+    _stop(){
+        this._cleanCanvas();
+        this._update = function(){};
+        clearInterval(this.canvas_loop)
+        clearInterval(this.zombies_loop)
+    }
+
     start(){
-        this._canvasLoop();
+        let canvas_loop = this._canvasLoop();
         this._assignControlsToKeys();
-        this._generateZombies();
+        let zombies_loop = this._generateZombies();
     };
 }
