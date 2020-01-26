@@ -67,6 +67,8 @@ class Game {
                 hitBullet._destroy();
                 this.bullets.splice(this.bullets.indexOf(hitBullet))
                 zombie._destroy();
+                this.gamePoints += 20
+                document.getElementById("points").innerText = this.gamePoints
                 this.zombies.splice(this.zombies.indexOf(zombie), 1)
             }
             if(zombie.hit(this.player)){
