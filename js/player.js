@@ -8,8 +8,16 @@ class Player {
       this.moveIntervalDown = undefined;
       this.moveIntervalLeft = undefined;
       this.moveIntervalRight = undefined;
+      this.shootCadency = 1000;
+      this.canShoot = true;
     }
     
+    _blockShoot(){
+      this.canShoot = false
+      setTimeout(function(){this.canShoot = true }.bind(this), this.shootCadency);
+    }
+
+
     inBorders(){
       let yesNo = false
       if (this.position[0] >= (500-this.size)){

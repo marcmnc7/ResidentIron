@@ -113,8 +113,11 @@ class Game {
                     this.player.move("d");
                     break;
                 case 32: // space
-                    this.bullets.push(new Bullet(this.player.position, this.player.direction));
-                    break;
+                    if(this.player.canShoot){
+                        this.player._blockShoot();
+                        this.bullets.push(new Bullet(this.player.position, this.player.direction));
+                        break;
+                    }
             }
         });
         document.addEventListener('keyup', e => {
