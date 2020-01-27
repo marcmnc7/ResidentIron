@@ -9,9 +9,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let game = undefined;
     
     
+    
     canvas = document.getElementById('canvas')
     ctx = canvas.getContext('2d');
-
+    
+    
     btnPlay.addEventListener("click", function(){
         screenStart.style.display = "none";
         screenGame.style.display = "block";

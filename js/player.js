@@ -2,7 +2,7 @@ class Player {
     constructor() {
       this.position = [250, 250];
       this.direction = "d";
-      this.size = 20;
+      this.size = 40;
       this.velocity = 2;
       this.moveIntervalUp = undefined;
       this.moveIntervalDown = undefined;
@@ -10,6 +10,27 @@ class Player {
       this.moveIntervalRight = undefined;
       this.shootCadency = 1000;
       this.canShoot = true;
+      this.action = "walk"
+      this.animationDict = {
+          "walk": {
+              "w": [16,525,35,55],
+              "s": [16,652,35,55],
+              "d": [16,717,35,55],
+              "a": [16,589,35,55],
+          }
+      };
+      this.intervalWalkAnimation;
+    }
+
+
+    _walkAnimation(){
+      console.log(this.intervalWalkAnimation)
+      if(!this.intervalWalkAnimation){
+        this.intervalWalkAnimation = setInterval(function(){
+            if(this.animationDict[this.action][this.direction][0] > 500){this.animationDict[this.action][this.direction][0]=16}
+            this.animationDict[this.action][this.direction][0] = this.animationDict[this.action][this.direction][0]+64;
+        }.bind(this), 50);
+      }
     }
     
     _blockShoot(){
@@ -36,6 +57,8 @@ class Player {
 
     move(newDirection){
       this.direction = newDirection
+      this.action = "walk"
+      this._walkAnimation()
       switch (newDirection) {
         case "w":
           if (!this.moveIntervalUp){
@@ -77,9 +100,11 @@ class Player {
     };
 
     stop(direction){
+      clearInterval(this.intervalWalkAnimation)
+      this.intervalWalkAnimation = undefined
       switch (direction) {
         case "w":
-          clearInterval(this.moveIntervalUp)    
+          clearInterval(this.moveIntervalUp)
           this.moveIntervalUp = undefined;
           break;
         case "s":

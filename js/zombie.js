@@ -3,10 +3,19 @@ class Zombie{
         this.position = position;
         this.direction = direction;
         this._move(direction);
-        this.size = 20;
+        this.size = 40;
         this.intervalMove = undefined;
         this.canHit = true;
         this.hitVelocity = 1000;
+        this.action = "walk"
+        this.animationDict = {
+            "walk": {
+                "w": [16,525,35,55],
+                "s": [16,652,35,55],
+                "d": [16,715,35,55],
+                "a": [16,589,35,55],
+            }
+        };
     }
 
     _blockHit(){
@@ -45,7 +54,16 @@ class Zombie{
         }        
     }
 
+    _walkAnimation(){
+        setInterval(function(){
+            if(this.animationDict[this.action][this.direction][0] > 500){this.animationDict[this.action][this.direction][0]=16}
+            this.animationDict[this.action][this.direction][0] = this.animationDict[this.action][this.direction][0]+64;
+        }.bind(this), 200);
+    }
+
     _move(direction){
+        this.action = "walk"
+        this._walkAnimation()
         switch (direction) {
             case "w":
                 this.intervalMove = setInterval(function(){

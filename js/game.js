@@ -34,7 +34,12 @@ class Game {
         let playerPosition = this.player.position
         let playerSize = this.player.size
         this.context.fillStyle = "green";
-        this.context.fillRect(playerPosition[0], playerPosition[1], playerSize, playerSize);
+        const image = document.getElementById("playerImage");
+        this.context.drawImage(
+            image,
+            this.player.animationDict[this.player.action][this.player.direction][0], this.player.animationDict[this.player.action][this.player.direction][1], this.player.animationDict[this.player.action][this.player.direction][2], this.player.animationDict[this.player.action][this.player.direction][3],
+            this.player.position[0], this.player.position[1], this.player.size, this.player.size
+            );
     };
     
 
@@ -63,7 +68,15 @@ class Game {
         this.zombies.forEach(zombie => {
 
             this.context.fillStyle = "black";
-            this.context.fillRect(zombie.position[0], zombie.position[1], zombie.size, zombie.size);
+            //this.context.fillRect(zombie.position[0], zombie.position[1], zombie.size, zombie.size);
+            const image = document.getElementById("zombieImage");
+            this.context.drawImage(
+                image,
+                zombie.animationDict[zombie.action][zombie.direction][0], zombie.animationDict[zombie.action][zombie.direction][1], zombie.animationDict[zombie.action][zombie.direction][2], zombie.animationDict[zombie.action][zombie.direction][3],
+                zombie.position[0], zombie.position[1], zombie.size, zombie.size
+                );
+            
+            
             let hitBullet = zombie._recievesBullet(this.bullets)
             if(hitBullet){
                 hitBullet._destroy();
@@ -74,7 +87,7 @@ class Game {
                 this.zombies.splice(this.zombies.indexOf(zombie), 1)
             }
             if(zombie.hit(this.player)){
-                this._stop() // IMPROVE! Update keeps running.
+                this._stop()
                 this.player.die()
                 document.getElementById("gameOverScreen").style.display = "block";
                 document.getElementById("game").style.display = "none";
