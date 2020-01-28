@@ -3,7 +3,7 @@ class Zombie{
         this.position = position;
         this.direction = direction;
         this._move(direction);
-        this.size = 40;
+        this.size = [40, 60];
         this.intervalMove = undefined;
         this.canHit = true;
         this.hitVelocity = 1000;
@@ -18,7 +18,7 @@ class Zombie{
         };
         this.walkVelocity = 0.5
         this.intervalWalkAnimation;
-        this.timeBlockDir = 3000;
+        this.timeBlockDir = 1500;
         this.canChangeDir = true;
     }
 
@@ -40,22 +40,27 @@ class Zombie{
         for (let i = 0; i < bullets.length; i++) {
             const bullet = bullets[i];
             if (this.position[0] < bullet.position[0] + bullet.size &&
-                this.position[0] + this.size > bullet.position[0] &&
+                this.position[0] + this.size[0] > bullet.position[0] &&
                 this.position[1] < bullet.position[1] + bullet.size &&
-                this.position[1] + this.size > bullet.position[1]) {
-                    console.log("Collision")
+                this.position[1] + this.size[1] > bullet.position[1]) {
                     return bullet
                 }
             return false
         }
     }
-        
+
     hit(player){
+        /*
+        // mirar si hay un zombie en > y. Si es asi, hacer:
+        this.context.globalCompositeOperation='destination-over';
+        // volver a source over
+        this.context.globalCompositeOperation='source-over';
+        */
         if (this.canHit){
-            if (this.position[0] < player.position[0] + player.size &&
-                this.position[0] + this.size > player.position[0] &&
-                this.position[1] < player.position[1] + player.size &&
-                this.position[1] + this.size > player.position[1]) {
+            if (this.position[0]+20 < player.position[0] + player.size[0] &&
+                this.position[0] + this.size[0] > player.position[0]+20 &&
+                this.position[1]+20 < player.position[1] + player.size[1] &&
+                this.position[1] + this.size[1] > player.position[1]+20) {
                     this._blockHit()
                     return true
                 }

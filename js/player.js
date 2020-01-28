@@ -1,9 +1,9 @@
 class Player {
     constructor() {
-      this.position = [250, 250];
+      this.position = [500, 250];
       this.direction = "d";
-      this.size = 40;
-      this.velocity = 2;
+      this.size = [40, 60];
+      this.velocity = 10; // less is fast
       this.moveIntervalUp = undefined;
       this.moveIntervalDown = undefined;
       this.moveIntervalLeft = undefined;
@@ -28,7 +28,7 @@ class Player {
         this.intervalWalkAnimation = setInterval(function(){
             if(this.animationDict[this.action][this.direction][0] > 500){this.animationDict[this.action][this.direction][0]=16}
             this.animationDict[this.action][this.direction][0] = this.animationDict[this.action][this.direction][0]+64;
-        }.bind(this), 50);
+        }.bind(this), this.velocity+40);
       }
     }
     
@@ -40,13 +40,13 @@ class Player {
 
     inBorders(){
       let yesNo = false
-      if (this.position[0] >= (500-this.size)){
+      if (this.position[0] >= (1000-this.size[0])){
         this.position[0] -= 1
       } else if (this.position[1] <= 0) {
         this.position[1] += 1
       } else if (this.position[0] <= 0){
         this.position[0] += 1
-      } else if (this.position[1] >= (500-this.size)){
+      } else if (this.position[1] >= (520-this.size[1])){
         this.position[1] -= 1
       } else {
         yesNo = true
@@ -65,7 +65,7 @@ class Player {
               if (this.inBorders()){
                 this.position = [this.position[0], this.position[1]-1]
               }
-            }.bind(this), 10);
+            }.bind(this), this.velocity);
           }
           break;
         case "s":
@@ -74,7 +74,7 @@ class Player {
               if (this.inBorders()){
                 this.position = [this.position[0], this.position[1]+1]
               }
-            }.bind(this), 10);
+            }.bind(this), this.velocity);
           }
           break;
         case "a":
@@ -83,7 +83,7 @@ class Player {
               if (this.inBorders()){
                 this.position = [this.position[0]-1, this.position[1]]
               }
-            }.bind(this), 10);
+            }.bind(this), this.velocity);
           }
           break;
         case "d":
@@ -92,7 +92,7 @@ class Player {
               if (this.inBorders()){
                 this.position = [this.position[0]+1, this.position[1]]
               }
-            }.bind(this), 10);
+            }.bind(this), this.velocity);
           }
           break;
       }

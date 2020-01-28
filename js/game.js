@@ -43,16 +43,16 @@ class Game {
             let newZombieFrom = Math.round(Math.random() * 4)
             switch (newZombieFrom) {
                 case 1:
-                    this.zombies.push(new Zombie([Math.random() * 500, 500], "w"))
+                    this.zombies.push(new Zombie([Math.random() * 1000, 520], "w"))
                     break;
                 case 2:
-                    this.zombies.push(new Zombie([Math.random() * 500, -20], "s"))
+                    this.zombies.push(new Zombie([Math.random() * 1000, -20], "s"))
                     break;
                 case 3:
-                    this.zombies.push(new Zombie([500, Math.random() * 500], "a"))
+                    this.zombies.push(new Zombie([1000, Math.random() * 520], "a"))
                     break;
                 case 4:
-                    this.zombies.push(new Zombie([-20, Math.random() * 500], "d"))
+                    this.zombies.push(new Zombie([-20, Math.random() * 520], "d"))
                     break;
                 }
         }.bind(this), 1000);
@@ -64,7 +64,7 @@ class Game {
         this.context.drawImage(
             image,
             this.player.animationDict[this.player.action][this.player.direction][0], this.player.animationDict[this.player.action][this.player.direction][1], this.player.animationDict[this.player.action][this.player.direction][2], this.player.animationDict[this.player.action][this.player.direction][3],
-            this.player.position[0], this.player.position[1], this.player.size, this.player.size
+            this.player.position[0], this.player.position[1], this.player.size[0], this.player.size[1]
             );
     };
     
@@ -99,7 +99,7 @@ class Game {
             this.context.drawImage(
                 image,
                 zombie.animationDict[zombie.action][zombie.direction][0], zombie.animationDict[zombie.action][zombie.direction][1], zombie.animationDict[zombie.action][zombie.direction][2], zombie.animationDict[zombie.action][zombie.direction][3],
-                zombie.position[0], zombie.position[1], zombie.size, zombie.size
+                zombie.position[0], zombie.position[1], zombie.size[0], zombie.size[1]
                 );
             
             
@@ -178,7 +178,7 @@ class Game {
     }
 
     _cleanCanvas() {
-        this.context.clearRect(0, 0, 500, 500)
+        this.context.clearRect(0, 0, 1000, 520)
     }
 
     _stop(){
