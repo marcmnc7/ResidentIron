@@ -1,10 +1,10 @@
 class Bullet{
-    constructor(position, direction){
+    constructor(position, direction, maxDistance){
         this.position = position;
         this.initialPosition = [...position]
         this.size = 10;
         this.intervalShoot = undefined;
-        this.maxBulletDistance = 200;
+        this.maxBulletDistance = maxDistance;
         this.direction = direction;
         this._move(direction);
     }
