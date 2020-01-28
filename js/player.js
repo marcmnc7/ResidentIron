@@ -20,6 +20,7 @@ class Player {
           }
       };
       this.intervalWalkAnimation;
+      this.lifePoints = 4;
     }
 
 

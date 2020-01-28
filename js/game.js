@@ -110,13 +110,18 @@ class Game {
                 zombie._destroy();
                 this.gamePoints += 20
                 document.getElementById("points").innerText = this.gamePoints
-                this.zombies.splice(this.zombies.indexOf(zombie), 1)
+                if(zombie.lifePoints === 0){    
+                    this.zombies.splice(this.zombies.indexOf(zombie), 1)
+                }
             }
             if(zombie.hit(this.player)){
-                this._stop()
-                this.player.die()
-                document.getElementById("gameOverScreen").style.display = "block";
-                document.getElementById("game").style.display = "none";
+                document.getElementById("lifes").innerText = this.player.lifePoints;
+                if(this.player.lifePoints === 0){
+                    this._stop()
+                    this.player.die()
+                    document.getElementById("gameOverScreen").style.display = "block";
+                    document.getElementById("game").style.display = "none";
+                }
             }
         });
     };

@@ -20,6 +20,7 @@ class Zombie{
         this.intervalWalkAnimation;
         this.timeBlockDir = 1500;
         this.canChangeDir = true;
+        this.lifePoints = 3;
     }
 
     _blockHit(){
@@ -39,10 +40,11 @@ class Zombie{
     _recievesBullet(bullets){
         for (let i = 0; i < bullets.length; i++) {
             const bullet = bullets[i];
-            if (this.position[0] < bullet.position[0] + bullet.size &&
-                this.position[0] + this.size[0] > bullet.position[0] &&
-                this.position[1] < bullet.position[1] + bullet.size &&
-                this.position[1] + this.size[1] > bullet.position[1]) {
+            if (this.position[0]+10 < bullet.position[0] + bullet.size &&
+                this.position[0] + this.size[0] > bullet.position[0]+10 &&
+                this.position[1]+10 < bullet.position[1] + bullet.size &&
+                this.position[1] + this.size[1] > bullet.position[1]+10) {
+                    this.lifePoints--;
                     return bullet
                 }
             return false
@@ -62,6 +64,7 @@ class Zombie{
                 this.position[1]+20 < player.position[1] + player.size[1] &&
                 this.position[1] + this.size[1] > player.position[1]+20) {
                     this._blockHit()
+                    player.lifePoints--;
                     return true
                 }
             return false
