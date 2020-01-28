@@ -9,6 +9,35 @@ class Game {
         this.zombies_loop = undefined;
     }
 
+    _zombieToPlayerPosition(zombie){
+
+        let playerX = this.player.position[0]
+        let playerY = this.player.position[1]
+        let zombieX = zombie.position[0]
+        let zombieY = zombie.position[1]
+        let diffX = Math.abs(playerX - zombieX)
+        let diffY = Math.abs(playerY - zombieY)
+        if (zombie.canChangeDir){
+
+            if(diffX > diffY){
+                if(playerX > zombieX){
+                    zombie._move("d")
+                } else {
+                    zombie._move("a")
+                }
+            } else {
+                if(playerY > zombieY){
+                    zombie._move("s")
+                } else {
+                    zombie._move("w")
+                }
+            }
+            zombie._blockDirection()
+        } else {
+            zombie._move(zombie.direction)
+        }
+    }
+
     _generateZombies(){
         return setInterval(function(){            
             let newZombieFrom = Math.round(Math.random() * 4)
@@ -27,12 +56,9 @@ class Game {
                     break;
                 }
         }.bind(this), 1000);
-
     }
     
     _drawPlayer(){
-        let playerPosition = this.player.position
-        let playerSize = this.player.size
         this.context.fillStyle = "green";
         const image = document.getElementById("playerImage");
         this.context.drawImage(
@@ -67,8 +93,8 @@ class Game {
     _drawZombies(){
         this.zombies.forEach(zombie => {
 
+            this._zombieToPlayerPosition(zombie);
             this.context.fillStyle = "black";
-            //this.context.fillRect(zombie.position[0], zombie.position[1], zombie.size, zombie.size);
             const image = document.getElementById("zombieImage");
             this.context.drawImage(
                 image,

@@ -24,7 +24,6 @@ class Player {
 
 
     _walkAnimation(){
-      console.log(this.intervalWalkAnimation)
       if(!this.intervalWalkAnimation){
         this.intervalWalkAnimation = setInterval(function(){
             if(this.animationDict[this.action][this.direction][0] > 500){this.animationDict[this.action][this.direction][0]=16}
@@ -64,7 +63,7 @@ class Player {
           if (!this.moveIntervalUp){
             this.moveIntervalUp = setInterval(function(){
               if (this.inBorders()){
-                this.position = [this.position[0], this.position[1]-2]
+                this.position = [this.position[0], this.position[1]-1]
               }
             }.bind(this), 10);
           }
@@ -73,7 +72,7 @@ class Player {
           if (!this.moveIntervalDown ){
             this.moveIntervalDown = setInterval(function(){
               if (this.inBorders()){
-                this.position = [this.position[0], this.position[1]+2]
+                this.position = [this.position[0], this.position[1]+1]
               }
             }.bind(this), 10);
           }
@@ -82,7 +81,7 @@ class Player {
           if (!this.moveIntervalLeft){
             this.moveIntervalLeft = setInterval(function(){
               if (this.inBorders()){
-                this.position = [this.position[0]-2, this.position[1]]
+                this.position = [this.position[0]-1, this.position[1]]
               }
             }.bind(this), 10);
           }
@@ -91,7 +90,7 @@ class Player {
           if (!this.moveIntervalRight){
             this.moveIntervalRight = setInterval(function(){
               if (this.inBorders()){
-                this.position = [this.position[0]+2, this.position[1]]
+                this.position = [this.position[0]+1, this.position[1]]
               }
             }.bind(this), 10);
           }

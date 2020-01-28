@@ -16,11 +16,20 @@ class Zombie{
                 "a": [16,589,35,55],
             }
         };
+        this.walkVelocity = 0.5
+        this.intervalWalkAnimation;
+        this.timeBlockDir = 3000;
+        this.canChangeDir = true;
     }
 
     _blockHit(){
         this.canHit = false
         setTimeout(function(){this.canHit = true }.bind(this), this.hitVelocity);
+    }
+
+    _blockDirection(){
+        this.canChangeDir = false
+        setTimeout(function(){this.canChangeDir = true }.bind(this), this.timeBlockDir);
     }
 
     _destroy(){
@@ -55,35 +64,32 @@ class Zombie{
     }
 
     _walkAnimation(){
-        setInterval(function(){
-            if(this.animationDict[this.action][this.direction][0] > 500){this.animationDict[this.action][this.direction][0]=16}
-            this.animationDict[this.action][this.direction][0] = this.animationDict[this.action][this.direction][0]+64;
-        }.bind(this), 200);
+        if(!this.intervalWalkAnimation){
+
+            this.intervalWalkAnimation = setInterval(function(){
+                if(this.animationDict[this.action][this.direction][0] > 500){this.animationDict[this.action][this.direction][0]=16}
+                this.animationDict[this.action][this.direction][0] = this.animationDict[this.action][this.direction][0]+64;
+            }.bind(this), 200);
+        
+        }
     }
 
     _move(direction){
-        this.action = "walk"
-        this._walkAnimation()
+        this.action = "walk";
+        this._walkAnimation();
+        this.direction = direction;
         switch (direction) {
             case "w":
-                this.intervalMove = setInterval(function(){
-                    this.position = [this.position[0], this.position[1]-2]
-                }.bind(this), 200);
+                this.position = [this.position[0], this.position[1]-0.2];
               break;
             case "s":
-                this.intervalMove = setInterval(function(){
-                    this.position = [this.position[0], this.position[1]+2]
-                }.bind(this), 200);
+                this.position = [this.position[0], this.position[1]+0.2];
                 break
             case "a":
-                this.intervalMove = setInterval(function(){
-                    this.position = [this.position[0]-2, this.position[1]]
-                }.bind(this), 200);
+                this.position = [this.position[0]-0.2, this.position[1]];
               break;
             case "d":
-                this.intervalMove = setInterval(function(){
-                    this.position = [this.position[0]+2, this.position[1]]
-                }.bind(this), 200);
+                this.position = [this.position[0]+0.2, this.position[1]];
               break;
           }
     }
