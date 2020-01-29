@@ -4,8 +4,10 @@ class Game {
     this.gamePoints = 0;
     this.context = options.context;
     this.zombies = [];
+    this.zombiesPro = [];
     this.canvas_loop = undefined;
     this.zombies_loop = undefined;
+    this.zombiesPro_loop = undefined;
   }
 
   _zombieToPlayerPosition(zombie) {
@@ -57,10 +59,28 @@ class Game {
     }.bind(this), 1000);
   }
 
+  _generateZombiesPro() {
+    this.zombiesPro_loop = setInterval(function () {
+      let newZombieProFrom = Math.round(Math.random() * 4)
+      console.log(this.zombiesPro)
+      switch (newZombieProFrom) {
+        case 1:
+          this.zombiesPro.push(new ZombiePro([Math.random() * 1000, 520], "w"))
+          break;
+        case 2:
+          this.zombiesPro.push(new ZombiePro([Math.random() * 1000, -20], "s"))
+          break;
+        case 3:
+          this.zombiesPro.push(new ZombiePro([1000, Math.random() * 520], "a"))
+          break;
+        case 4:
+          this.zombiesPro.push(new ZombiePro([-20, Math.random() * 520], "d"))
+          break;
+      }
+    }.bind(this), 1000);
+  }
+
   _drawPlayer() {
-    document.getElementById("lifes").innerText = this.player.lifePoints;
-    document.getElementById("munition").innerText = this.player.weapon.munition;
-    this.context.fillStyle = "green";
     const image = document.getElementById("playerImage");
     this.context.drawImage(
       image,
@@ -116,12 +136,17 @@ class Game {
   };
 
 
-  _drawZombies() {
-    this.zombies.forEach(zombie => {
+  _drawZombies(arrayZombies, type) {
+    arrayZombies.forEach(zombie => {
 
       this._zombieToPlayerPosition(zombie);
       this.context.fillStyle = "black";
-      const image = document.getElementById("zombieImage");
+      let image;
+      if (type == "pro") {
+        image = document.getElementById("zombiePro");
+      } else {
+        image = document.getElementById("zombieImage");
+      }
       this.context.drawImage(
         image,
         zombie.animationDict[zombie.action][zombie.direction][0], zombie.animationDict[zombie.action][zombie.direction][1], zombie.animationDict[zombie.action][zombie.direction][2], zombie.animationDict[zombie.action][zombie.direction][3],
@@ -148,19 +173,19 @@ class Game {
         this.player.bullets.splice(this.player.bullets.indexOf(hitBullet))
 
 
-        if (zombie.lifePoints === 0) {
+        if (zombie.lifePoints <= 0) {
           this.gamePoints += 200
           let dieEffect = document.getElementById("dieEffect")
           dieEffect.volume = 0.35;
           dieEffect.play()
           zombie._destroy();
-          this.zombies.splice(this.zombies.indexOf(zombie), 1)
+          arrayZombies.splice(arrayZombies.indexOf(zombie), 1)
         }
       }
       if (zombie.hit(this.player)) {
         let hitEffect = document.getElementById("hitEffect")
         hitEffect.play()
-        if (this.player.lifePoints === 0) {
+        if (this.player.lifePoints <= 0) {
           this._stop()
           this.player.die()
         }
@@ -168,12 +193,14 @@ class Game {
     });
   };
 
+
   _update() {
     console.log("Update")
     this._cleanCanvas();
     this._drawBullets();
     this._drawMunitions();
-    this._drawZombies();
+    this._drawZombies(this.zombies, "normal");
+    this._drawZombies(this.zombiesPro, "pro");
     this._drawPlayer();
     this._canvasLoop();
     document.getElementById("points").innerText = this.gamePoints
@@ -242,10 +269,12 @@ class Game {
     this._update = function () { };
     clearInterval(this.canvas_loop)
     clearInterval(this.zombies_loop)
+    clearInterval(this.zombiesPro_loop)
     document.getElementById("gameMusic").pause()
     document.getElementById("zombiesSound").pause
     document.getElementById("gameOverScreen").style.display = "block";
     document.getElementById("game").style.display = "none";
+    document.getElementById("finalPoints").innerText = `Tu puntuación: ${this.gamePoints}`
   }
 
   start() {
@@ -256,6 +285,7 @@ class Game {
     let canvas_loop = this._canvasLoop();
     this._assignControlsToKeys();
     this._generateZombies();
+    this._generateZombiesPro();
     this._generatePoints();
   };
 }

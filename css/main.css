@@ -96,6 +96,11 @@ canvas {
     position: absolute;
 }
 
+#finalPoints{
+    margin: 10px;
+    font-size: 40px;
+}
+
 .vidas{
     position: absolute;
 }

@@ -28,7 +28,7 @@ class Zombie {
         "a": [16, 589, 35, 55],
       }
     };
-    this.walkVelocity = 0.5
+    this.walkVelocity = 0.2
     this.intervalWalkAnimation;
     this.intervalHitAnimation;
     this.timeBlockDir = 1500;
@@ -126,21 +126,31 @@ class Zombie {
       this.direction = direction;
       switch (direction) {
         case "w":
-          this.position = [this.position[0], this.position[1] - 0.2];
+          this.position = [this.position[0], this.position[1] - this.walkVelocity];
           break;
         case "s":
-          this.position = [this.position[0], this.position[1] + 0.2];
+          this.position = [this.position[0], this.position[1] + this.walkVelocity];
           break
         case "a":
-          this.position = [this.position[0] - 0.2, this.position[1]];
+          this.position = [this.position[0] - this.walkVelocity, this.position[1]];
           break;
         case "d":
-          this.position = [this.position[0] + 0.2, this.position[1]];
+          this.position = [this.position[0] + this.walkVelocity, this.position[1]];
           break;
       }
     };
   }
 
 
+
+}
+
+class ZombiePro extends Zombie {
+  constructor(position, direction) {
+    super(position, direction);
+    this.lifePoints = 5;
+    this.walkVelocity = 0.5;
+    this.timeBlockDir = 1200;
+  }
 
 }
