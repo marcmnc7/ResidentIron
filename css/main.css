@@ -1,26 +1,123 @@
+body, html {height:100%;}
+div.wrap {height:100%; overflow:hidden;}
+
+body{
+    background-image: url(/src/bgZombie.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: 100%;
+    overflow: hidden;
+}
+
+
+
 canvas {
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin-top: 50px;
-    margin-bottom: 50px;
+    position: absolute;
     display: block;
     width: 1000px;
     height: 520px;
-    background-color: bisque;
+    background-image: url('/src/background.jpg');
+    border: black solid 10px;
+    left: 50%;
+    margin-left: -500px;
+    top: 50%;
+    margin-top: -260px;
+    opacity: 0.9;
+   
 }
 
 #startScreen{
+    margin-top: 150px;
     display: block;
+    text-align: center;
+}
+
+#gameOverScreen{
+    margin-top: 150px;
+    display: block;
+    text-align: center;
+}
+
+#start_game{
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #game{
     display: none;
 }
 
+.pointsDiv p{
+    margin: 0;;
+    font-size: 40px;
+    font-weight: 900;
+    top: 0px;
+    text-align: center;
+    color: white;
+}
+
+.title{
+    font-size: 100px;
+    margin: 0px;
+    text-shadow: 0 0 10px #FF0000;
+    animation: shake 0.5s;
+    animation-iteration-count: infinite;
+    color: rgb(36, 0, 0);
+}
+
+.subtitle{
+    font-size: 35px;
+    color: black;
+    text-shadow: 0 0 1px #FF0000;
+    animation: shake 4s;
+    animation-iteration-count: infinite;
+}
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+  }
+
+
 #gameOverScreen{
     display: none;
+}
+
+.municion{
+    position: absolute;
+}
+
+.vidas{
+    position: absolute;
+}
+
+
+.example_a {
+color: #fff !important;
+text-transform: uppercase;
+text-decoration: none;
+background: #5f0605;
+padding: 20px;
+border-radius: 5px;
+display: inline-block;
+border: none;
+transition: all 0.4s ease 0s;
+}
+
+.example_a:hover {
+background: #434343;
+letter-spacing: 1px;
+-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+transition: all 0.4s ease 0s;
 }

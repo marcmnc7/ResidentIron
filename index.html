@@ -10,36 +10,84 @@
 </head>
 
 <body>
-  <div id="startScreen">
-    <button id="start_game">Jugar</button>
-  </div>
-  <div id ="game">
-    VIDAS RESTANTES --> <p id="lifes"></p>
-    MUNICION RESTANTE --> <p id="munition"></p>
-    <canvas id="canvas" width="1000", height="520"></canvas>
-    <div style="display:none;">
-      <img id="zombieImage"
-           src="/src/zombie.png"
-           width="300" height="227">
+  <div class="wrap">
+
+
+    <div id="startScreen">
+      <h1 class="title">ResidentIron</h1>
+      <p class="subtitle">Listo para la batalla?</p>
+      <button id="start_game">Jugar</button>
     </div>
-    <div style="display:none;">
-      <img id="playerImage"
-           src="/src/player.png"
-           width="300" height="227">
+
+
+    <div id="game">
+
+      <div class="pointsDiv">
+        <p id="points">0</p>
+      </div>
+      <div class="municion">
+        MUNICION RESTANTE --> <p id="munition"></p>
+      </div>
+      <div class="vidas">
+        VIDAS RESTANTES --> <p id="lifes"></p>
+      </div>
+      <canvas id="canvas" width="1000" , height="520"></canvas>
+      <div style="display:none;">
+        <img id="blood" src="/src/blood.png">
+      </div>
+      <div style="display:none;">
+        <img id="backgroundImage" src="/src/background.jpg">
+      </div>
+      <div style="display:none;">
+        <img id="bulletd" src="/src/bulletd.png">
+      </div>
+      <div style="display:none;">
+        <img id="bulletw" src="/src/bulletw.png">
+      </div>
+      <div style="display:none;">
+        <img id="bulleta" src="/src/bulleta.png">
+      </div>
+      <div style="display:none;">
+        <img id="bullets" src="/src/bullets.png">
+      </div>
+      <div style="display:none;">
+        <img id="zombieImage" src="/src/zombie.png" width="300" height="227">
+      </div>
+      <div style="display:none;">
+        <img id="playerImage" src="/src/player.png" width="300" height="227">
+      </div>
     </div>
-    <p id="points"></p>
+
+
+    <div id="gameOverScreen">
+      <h1 class="title">Game Over</h1>
+      <button id="toHome">Return HOME</button>
+      <button id="playAgain">Play Again</button>
+    </div>
+
+
+    <script src="js/game.js"></script>
+    <script src="js/bullet.js"></script>
+    <script src="js/weapon.js"></script>
+    <script src="js/zombie.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/main.js"></script>
   </div>
-  <div id="gameOverScreen">
-    <p>Game Over</p>
-    <button id="toHome">Return HOME</button>
-    <button id="playAgain">Play Again</button>
-  </div>
-  <script src="js/game.js"></script>
-  <script src="js/bullet.js"></script>
-  <script src="js/weapon.js"></script>
-  <script src="js/zombie.js"></script>
-  <script src="js/player.js"></script>
-  <script src="js/main.js"></script>
+  <audio controls id="gameMusic">
+    <source src="/src/gamemusic.mp3" type="audio/mpeg">
+  </audio>
+  <audio controls id="zombiesSound">
+    <source src="/src/gameback.mp3" type="audio/mpeg">
+  </audio>
+  <audio controls id="arrowEffect">
+    <source src="/src/arrow.mp3" type="audio/mpeg">
+  </audio>
+  <audio controls id="hitEffect">
+    <source src="/src/hit.mp3" type="audio/mpeg">
+  </audio>
+  <audio controls id="dieEffect">
+    <source src="/src/die.mp3" type="audio/mpeg">
+  </audio>
 </body>
 
 </html>

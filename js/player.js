@@ -2,7 +2,7 @@ class Player {
   constructor(weapon) {
     this.position = [500, 250];
     this.direction = "d";
-    this.size = [40, 60];
+    this.size = [50, 60];
     this.velocity = 10; // less is fast
     this.moveIntervalUp = undefined;
     this.moveIntervalDown = undefined;
@@ -14,18 +14,35 @@ class Player {
     this.action = "walk"
     this.animationDict = {
       "walk": {
-        "w": [16, 525, 35, 55],
-        "s": [16, 652, 35, 55],
-        "d": [16, 717, 35, 55],
-        "a": [16, 589, 35, 55],
+        "w": [12, 520, 45, 55],
+        "s": [12, 647, 45, 55],
+        "d": [12, 711, 45, 55],
+        "a": [12, 584, 45, 55],
+      },
+      "shoot": {
+        "w": [12, 1035, 45, 55],
+        "s": [12, 1160, 45, 55],
+        "d": [12, 1223, 45, 55],
+        "a": [12, 1095, 45, 55],
       }
     };
     this.intervalWalkAnimation;
+    this.intervalShootAnimation;
     this.lifePoints = 4;
     this.weapon = weapon;
     this.bullets = [];
   }
 
+  _shootAnimation() {
+    if (!this.intervalShootAnimation) {
+
+      this.intervalShootAnimation = setInterval(function () {
+        if (this.animationDict[this.action][this.direction][0] > 700) { this.animationDict[this.action][this.direction][0] = 12 }
+        this.animationDict[this.action][this.direction][0] = this.animationDict[this.action][this.direction][0] + 64;
+      }.bind(this), this.weapon.cadency - 165);
+
+    }
+  }
 
   _walkAnimation() {
     if (!this.intervalWalkAnimation) {
@@ -64,7 +81,10 @@ class Player {
         if (this.canShoot) {
           this._blockShoot();
           if (this.weapon.munition > 0) {
-            this.bullets.push(new Bullet(this.position, this.direction, this.weapon.maxDistance));
+            this.bullets.push(new Bullet(this.position, this.direction, this.weapon.maxDistance, this.weapon.regression, this.weapon.damage));
+            this.action = "shoot"
+            document.getElementById("arrowEffect").play() // INTENTAR SACAR DE AQUI, ESO ES DE VIEW
+            this._shootAnimation()
             this.weapon.munition--;
           }
         }
@@ -74,50 +94,54 @@ class Player {
 
   stopShoot() {
     clearInterval(this.shootInterval)
+    clearInterval(this.intervalShootAnimation)
+    this.intervalShootAnimation = undefined;
+    this.action = "walk";
     this.shootInterval = undefined;
   }
 
   move(newDirection) {
     this.direction = newDirection
-    this.action = "walk"
-    this._walkAnimation()
-    switch (newDirection) {
-      case "w":
-        if (!this.moveIntervalUp) {
-          this.moveIntervalUp = setInterval(function () {
-            if (this.inBorders()) {
-              this.position = [this.position[0], this.position[1] - 1]
-            }
-          }.bind(this), this.velocity);
-        }
-        break;
-      case "s":
-        if (!this.moveIntervalDown) {
-          this.moveIntervalDown = setInterval(function () {
-            if (this.inBorders()) {
-              this.position = [this.position[0], this.position[1] + 1]
-            }
-          }.bind(this), this.velocity);
-        }
-        break;
-      case "a":
-        if (!this.moveIntervalLeft) {
-          this.moveIntervalLeft = setInterval(function () {
-            if (this.inBorders()) {
-              this.position = [this.position[0] - 1, this.position[1]]
-            }
-          }.bind(this), this.velocity);
-        }
-        break;
-      case "d":
-        if (!this.moveIntervalRight) {
-          this.moveIntervalRight = setInterval(function () {
-            if (this.inBorders()) {
-              this.position = [this.position[0] + 1, this.position[1]]
-            }
-          }.bind(this), this.velocity);
-        }
-        break;
+    if (this.action == "walk") {
+      this._walkAnimation()
+      switch (newDirection) {
+        case "w":
+          if (!this.moveIntervalUp) {
+            this.moveIntervalUp = setInterval(function () {
+              if (this.inBorders()) {
+                this.position = [this.position[0], this.position[1] - 1]
+              }
+            }.bind(this), this.velocity);
+          }
+          break;
+        case "s":
+          if (!this.moveIntervalDown) {
+            this.moveIntervalDown = setInterval(function () {
+              if (this.inBorders()) {
+                this.position = [this.position[0], this.position[1] + 1]
+              }
+            }.bind(this), this.velocity);
+          }
+          break;
+        case "a":
+          if (!this.moveIntervalLeft) {
+            this.moveIntervalLeft = setInterval(function () {
+              if (this.inBorders()) {
+                this.position = [this.position[0] - 1, this.position[1]]
+              }
+            }.bind(this), this.velocity);
+          }
+          break;
+        case "d":
+          if (!this.moveIntervalRight) {
+            this.moveIntervalRight = setInterval(function () {
+              if (this.inBorders()) {
+                this.position = [this.position[0] + 1, this.position[1]]
+              }
+            }.bind(this), this.velocity);
+          }
+          break;
+      }
     }
   };
 

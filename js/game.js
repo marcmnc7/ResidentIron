@@ -67,21 +67,46 @@ class Game {
       this.player.animationDict[this.player.action][this.player.direction][0], this.player.animationDict[this.player.action][this.player.direction][1], this.player.animationDict[this.player.action][this.player.direction][2], this.player.animationDict[this.player.action][this.player.direction][3],
       this.player.position[0], this.player.position[1], this.player.size[0], this.player.size[1]
     );
+
+
+    let c = 0;
+    this.context.fillStyle = "darkred"
+    for (let i = 0; i < this.player.lifePoints; i++) {
+      c = (this.player.position[0] + 8) + (i * 6);
+      this.context.fillRect(c, this.player.position[1] - 3, 5, 5);
+    }
   };
 
+  _drawMunitions() {
+    let firstC = 0;
+    let c2 = 0;
+    let c = 0;
+    for (let i = 0; i < this.player.weapon.munition; i++) {
+      let image = document.getElementById(`bulletw`);
+      c2 = (i * 25 + 12)
+      c = c2 % 500
+      this.context.drawImage(image, (Math.floor(c2 / 500) * 11) + 10, c, 10, 20)
+    }
+  }
 
   _drawBullets() {
     this.player.bullets.forEach(bullet => {
 
-      this.context.fillStyle = "red";
-      this.context.fillRect(bullet.position[0], bullet.position[1], bullet.size, bullet.size);
-
+      let image = document.getElementById(`bullet${bullet.direction}`);
       if (bullet.direction == "w" || bullet.direction == "s") {
+        this.context.drawImage(
+          image,
+          bullet.position[0] + 10, bullet.position[1], bullet.size[0], bullet.size[1]
+        );
         if (bullet.initialPosition[1] > bullet.position[1] + bullet.maxBulletDistance || bullet.initialPosition[1] < bullet.position[1] - bullet.maxBulletDistance) {
           bullet._destroy()
           this.player.bullets.splice(this.player.bullets.indexOf(bullet), 1)
         }
       } else {
+        this.context.drawImage(
+          image,
+          bullet.position[0], bullet.position[1] + 10, bullet.size[0], bullet.size[1]
+        );
         if (bullet.initialPosition[0] > bullet.position[0] + bullet.maxBulletDistance || bullet.initialPosition[0] < bullet.position[0] - bullet.maxBulletDistance) {
           bullet._destroy()
           this.player.bullets.splice(this.player.bullets.indexOf(bullet), 1)
@@ -103,24 +128,41 @@ class Game {
         zombie.position[0], zombie.position[1], zombie.size[0], zombie.size[1]
       );
 
+      this.context.fillStyle = "green"
+      let c = 0;
+      for (let i = 0; i < zombie.lifePoints; i++) {
+        c = (zombie.position[0] + 8) + (i * 6);
+        this.context.fillRect(c, zombie.position[1] - 8, 5, 5);
+      }
 
       let hitBullet = zombie._recievesBullet(this.player.bullets)
       if (hitBullet) {
+
+        // BLOOD IMAGE - El zombie se printa encima enseguida. Arreglar.
+        let image = document.getElementById("blood")
+        this.context.drawImage(
+          image,
+          zombie.position[0], zombie.position[1], 20, 20
+        );
         hitBullet._destroy();
         this.player.bullets.splice(this.player.bullets.indexOf(hitBullet))
-        zombie._destroy();
-        this.gamePoints += 20
-        document.getElementById("points").innerText = this.gamePoints
+
+
         if (zombie.lifePoints === 0) {
+          this.gamePoints += 200
+          let dieEffect = document.getElementById("dieEffect")
+          dieEffect.volume = 0.35;
+          dieEffect.play()
+          zombie._destroy();
           this.zombies.splice(this.zombies.indexOf(zombie), 1)
         }
       }
       if (zombie.hit(this.player)) {
+        let hitEffect = document.getElementById("hitEffect")
+        hitEffect.play()
         if (this.player.lifePoints === 0) {
           this._stop()
           this.player.die()
-          document.getElementById("gameOverScreen").style.display = "block";
-          document.getElementById("game").style.display = "none";
         }
       }
     });
@@ -130,9 +172,12 @@ class Game {
     console.log("Update")
     this._cleanCanvas();
     this._drawBullets();
+    this._drawMunitions();
     this._drawZombies();
     this._drawPlayer();
     this._canvasLoop();
+    document.getElementById("points").innerText = this.gamePoints
+
   }
 
 
@@ -182,6 +227,12 @@ class Game {
     });
   }
 
+  _generatePoints() {
+    setInterval(() => {
+      this.gamePoints++;
+    }, 200);
+  }
+
   _cleanCanvas() {
     this.context.clearRect(0, 0, 1000, 520)
   }
@@ -191,11 +242,20 @@ class Game {
     this._update = function () { };
     clearInterval(this.canvas_loop)
     clearInterval(this.zombies_loop)
+    document.getElementById("gameMusic").pause()
+    document.getElementById("zombiesSound").pause
+    document.getElementById("gameOverScreen").style.display = "block";
+    document.getElementById("game").style.display = "none";
   }
 
   start() {
+    document.getElementById("gameMusic").play()
+    let zombiesSounds = document.getElementById("zombiesSound")
+    zombiesSounds.volume = 0.1;
+    zombiesSounds.play()
     let canvas_loop = this._canvasLoop();
     this._assignControlsToKeys();
     this._generateZombies();
+    this._generatePoints();
   };
 }

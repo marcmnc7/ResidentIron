@@ -13,13 +13,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
     canvas = document.getElementById('canvas')
     ctx = canvas.getContext('2d');
 
-
     btnPlay.addEventListener("click", function () {
         screenStart.style.display = "none";
         screenGame.style.display = "block";
         game = new Game({
             context: ctx,
-            player: new Player(new Metralleta())
+            player: new Player(new Revolver())
         });
         game.start()
     });
@@ -34,7 +33,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         screenGame.style.display = "block";
         game = new Game({
             context: ctx,
-            player: new Player()
+            player: new Player(new Metralleta())
         });
         game.start()
     });
