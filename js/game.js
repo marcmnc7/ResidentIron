@@ -77,7 +77,7 @@ class Game {
           this.zombiesPro.push(new ZombiePro([-20, Math.random() * 520], "d"))
           break;
       }
-    }.bind(this), 1000);
+    }.bind(this), 10000);
   }
 
   _drawPlayer() {
