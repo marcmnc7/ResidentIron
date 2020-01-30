@@ -2,7 +2,7 @@ body, html {height:100%;}
 div.wrap {height:100%; overflow:hidden;}
 
 body{
-    background-image: url(/src/bgZombie.jpg);
+    background-image: url(../src/bgZombie.jpg);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -17,7 +17,7 @@ canvas {
     display: block;
     width: 1000px;
     height: 520px;
-    background-image: url('/src/background.jpg');
+    background-image: url(../src/background.jpg);
     border: black solid 10px;
     left: 50%;
     margin-left: -500px;
