@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         screenGame.style.display = "block";
         game = new Game({
             context: ctx,
-            player: new Player(new Revolver())
+            player: new Player([new Revolver()])
         });
         game.start()
     });
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         screenGame.style.display = "block";
         game = new Game({
             context: ctx,
-            player: new Player(new Metralleta())
+            player: new Player([new Metralleta()])
         });
         game.start()
     });

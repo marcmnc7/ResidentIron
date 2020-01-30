@@ -101,7 +101,7 @@ class Game {
     let firstC = 0;
     let c2 = 0;
     let c = 0;
-    for (let i = 0; i < this.player.weapon.munition; i++) {
+    for (let i = 0; i < this.player.weapon[this.player.weaponIndex].munition; i++) {
       let image = document.getElementById(`bulletw`);
       c2 = (i * 25 + 12)
       c = c2 % 500
@@ -230,6 +230,9 @@ class Game {
           break;
         case 32: // space
           this.player.shoot();
+          break
+        case 75: // space
+          this.player.changeWeapon();
           break
       }
     });
