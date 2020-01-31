@@ -1,5 +1,6 @@
 class Player {
-  constructor(weapon) {
+  constructor(name, weapon) {
+    this.name = name;
     this.position = [500, 250];
     this.direction = "d";
     this.size = [50, 60];
@@ -30,7 +31,16 @@ class Player {
     this.intervalShootAnimation;
     this.lifePoints = 4;
     this.weapon = weapon;
+    this.weaponIndex = 0;
     this.bullets = [];
+  }
+
+  changeWeapon() {
+
+    this.weaponIndex++
+    if (this.weaponIndex >= this.weapon.length) {
+      this.weaponIndex = 0;
+    }
   }
 
   _shootAnimation() {
@@ -39,7 +49,7 @@ class Player {
       this.intervalShootAnimation = setInterval(function () {
         if (this.animationDict[this.action][this.direction][0] > 700) { this.animationDict[this.action][this.direction][0] = 12 }
         this.animationDict[this.action][this.direction][0] = this.animationDict[this.action][this.direction][0] + 64;
-      }.bind(this), this.weapon.cadency - 165);
+      }.bind(this), this.weapon[this.weaponIndex].cadency - 165);
 
     }
   }
@@ -55,7 +65,7 @@ class Player {
 
   _blockShoot() {
     this.canShoot = false
-    setTimeout(function () { this.canShoot = true }.bind(this), this.weapon.cadency);
+    setTimeout(function () { this.canShoot = true }.bind(this), this.weapon[this.weaponIndex].cadency);
   }
 
 
@@ -80,12 +90,12 @@ class Player {
       this.shootInterval = setInterval(function () {
         if (this.canShoot) {
           this._blockShoot();
-          if (this.weapon.munition > 0) {
-            this.bullets.push(new Bullet(this.position, this.direction, this.weapon.maxDistance, this.weapon.regression, this.weapon.damage));
+          if (this.weapon[this.weaponIndex].munition > 0) {
+            this.bullets.push(new Bullet(this.position, this.direction, this.weapon[this.weaponIndex].maxDistance, this.weapon[this.weaponIndex].regression, this.weapon[this.weaponIndex].damage));
             this.action = "shoot"
             document.getElementById("arrowEffect").play() // INTENTAR SACAR DE AQUI, ESO ES DE VIEW
             this._shootAnimation()
-            this.weapon.munition--;
+            this.weapon[this.weaponIndex].munition--;
           }
         }
       }.bind(this), this.velocity);
