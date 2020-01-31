@@ -8,25 +8,19 @@ body{
     background-position: center;
     background-size: 100%;
     overflow: hidden;
+    font-family: 'Cinzel Decorative', cursive;
 }
 
 .mainBtn{
-    border: none;
-    color: white;
-    font-size: 19px;
+    font-family: 'Cinzel Decorative', cursive;
     font-weight: 900;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
+    font-size: 19px;
+    width: 200px;
+    height: 50px;
+    color: black;
+    background-color: transparent;
+    border: 4px solid darkred;
     cursor: pointer;
-    width: 100;
-    height: 100px;
-    background-color: rgba(36, 0, 0, 0.5); 
-    border: 2px solid darkred;
-    border-radius: 50%;
     
 }
 
@@ -48,7 +42,9 @@ body{
     border-radius: 1%;
     
 }
-
+audio{
+    display: none;
+}
 canvas {
     position: absolute;
     display: block;
@@ -96,6 +92,7 @@ canvas {
 
 .title{
     font-size: 100px;
+    
     margin: 0px;
     text-shadow: 0 0 10px #FF0000;
     animation: shake 0.5s;
@@ -105,6 +102,7 @@ canvas {
 
 .subtitle{
     font-size: 35px;
+    font-weight: 5000;
     color: black;
     text-shadow: 0 0 1px #FF0000;
     animation: shake 4s;
@@ -163,3 +161,49 @@ letter-spacing: 1px;
 box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
 transition: all 0.4s ease 0s;
 }
+
+.chrome {
+    background-image: -webkit-linear-gradient(#378DBC 0%, #B6E8F1 46%, #ffffff 50%, #32120E 54%, #FFC488 58%, #582C11 90%, #EC9B4E 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 2px rgb(92, 92, 92);
+    font-size: 70px;
+    font-family: 'Titillium Web', sans-serif;
+    font-family: 'Cinzel Decorative', cursive;
+    font-style: italic;
+    margin: 0;
+    line-height: 1;
+    top: 20%;
+    font-weight: 900;
+}
+
+.fadeout {
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    animation-name: topFadeOut;
+    animation-duration: 1.5s;
+    width: 800px;
+  }
+
+  @keyframes topFadeOut {
+    0% {
+      position: absolute;
+      left: -3rem;
+      opacity: 0;
+    }
+  
+    50% {
+      position: absolute;
+      left: 30%;
+      opacity: 1;
+    }
+  
+    100% {
+      position: absolute;
+      opacity: 1;
+      left: 100%;
+    }
+  }
+  
+  

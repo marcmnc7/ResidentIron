@@ -4,8 +4,10 @@ class Game {
     this.gamePoints = 0;
     this.context = options.context;
     this.zombies = [];
+    this.boxes = [];
     this.zombiesPro = [];
     this.canvas_loop = undefined;
+    this.boxes_loop = undefined;
     this.zombies_loop = undefined;
     this.zombiesPro_loop = undefined;
   }
@@ -59,10 +61,16 @@ class Game {
     }.bind(this), 1000);
   }
 
+  _generateBoxes() {
+    this.boxes_loop = setInterval(function () {
+      let newBoxLocation = [Math.round(Math.random() * 1000), Math.round(Math.random() * 520)]
+      this.boxes.push(new Box(newBoxLocation));
+    }.bind(this), 2000);
+  }
+
   _generateZombiesPro() {
     this.zombiesPro_loop = setInterval(function () {
       let newZombieProFrom = Math.round(Math.random() * 4)
-      console.log(this.zombiesPro)
       switch (newZombieProFrom) {
         case 1:
           this.zombiesPro.push(new ZombiePro([Math.random() * 1000, 520], "w"))
@@ -87,8 +95,6 @@ class Game {
       this.player.animationDict[this.player.action][this.player.direction][0], this.player.animationDict[this.player.action][this.player.direction][1], this.player.animationDict[this.player.action][this.player.direction][2], this.player.animationDict[this.player.action][this.player.direction][3],
       this.player.position[0], this.player.position[1], this.player.size[0], this.player.size[1]
     );
-
-
     let c = 0;
     this.context.fillStyle = "darkred"
     for (let i = 0; i < this.player.lifePoints; i++) {
@@ -107,6 +113,84 @@ class Game {
       c = c2 % 500
       this.context.drawImage(image, (Math.floor(c2 / 500) * 11) + 10, c, 10, 20)
     }
+
+  }
+
+
+  _drawWeapons() {
+    if (this.player.weapon.length == 1 && this.player.weapon[this.player.weaponIndex].munition == 0) {
+
+    } else {
+      let firstC = 0;
+      let c2 = 0;
+      let c = 10;
+      for (let i = 0; i < this.player.weapon.length; i++) {
+        let image = ""
+        let w = this.player.weapon[i]
+        if (w.name == "metralleta") {
+          image = document.getElementById(`metralleta`);
+        } else {
+          image = document.getElementById(`revolver`);
+        }
+        c2 = (i * 28 + 14)
+        c = c2 % 500
+        this.context.drawImage(image, 940, c, 50, 30)
+        if (w === this.player.weapon[this.player.weaponIndex]) {
+          this.context.fillStyle = "darkred";
+          this.context.globalCompositeOperation = 'destination-over';
+          this.context.fillRect(940, c, 50, 30)
+        }
+      }
+    }
+  }
+
+  _showContains(msg) {
+    let txt = document.getElementById("boxcontains")
+    txt.innerText = msg
+    txt.display = "block"
+    txt.classList.add('fadeout');
+    setTimeout(() => {
+      txt.classList.remove('fadeout');
+      txt.innerHTML = ""
+    }, 1000);
+
+  }
+
+  _drawBoxes() {
+    this.boxes.forEach(box => {
+      let image = document.getElementById('boxs');
+      this.context.drawImage(
+        image,
+        box.position[0], box.position[1], box.size + 5, box.size
+      );
+      let boxPicked = box.hitsPlayer(this.player.position, this.player.size)
+      if (boxPicked) {
+        this.boxes.splice(this.boxes.indexOf(box), 1)
+        switch (box.itemType) {
+          case "munition":
+            this._showContains("+10 municion!")
+            this.player.weapon[this.player.weaponIndex].munition += box.content
+            break;
+          case "weapon":
+            switch (box.content) {
+              case "revolver":
+                this._showContains("Nuevo RevolveR!!")
+                this.player.weapon.push(new Revolver());
+                break;
+              case "metralleta":
+                this._showContains("Nueva Metralleta!")
+                this.player.weapon.push(new Metralleta());
+                break;
+            }
+            break;
+          case "life":
+            this._showContains("+2 vida!")
+            this.player.lifePoints += box.content
+            break;
+        }
+      }
+
+    });
   }
 
   _drawBullets() {
@@ -194,19 +278,16 @@ class Game {
   };
 
 
-  _update() {
-    console.log("Update")
-    this._cleanCanvas();
-    this._drawBullets();
-    this._drawMunitions();
-    this._drawZombies(this.zombies, "normal");
-    this._drawZombies(this.zombiesPro, "pro");
-    this._drawPlayer();
-    this._canvasLoop();
-    document.getElementById("points").innerText = this.gamePoints
-
+  _clearEmptyWeapons() {
+    console.log(this.player.weapon.length, this.player.weaponIndex)
+    for (let i = 0; i < this.player.weapon.length; i++) {
+      const weapon = this.player.weapon[i];
+      if (weapon.munition <= 0 && this.player.weapon.length > 1 && this.player.weapon[this.player.weaponIndex].munition == 0) {
+        this.player.weaponIndex--;
+        this.player.weapon.splice(this.player.weapon.indexOf(weapon), 1)
+      }
+    }
   }
-
 
   _canvasLoop() {
     return window.requestAnimationFrame(this._update.bind(this));
@@ -272,6 +353,7 @@ class Game {
     this._update = function () { };
     clearInterval(this.canvas_loop)
     clearInterval(this.zombies_loop)
+    clearInterval(this.boxes_loop)
     clearInterval(this.zombiesPro_loop)
     document.getElementById("gameMusic").pause()
     document.getElementById("zombiesSound").pause
@@ -279,6 +361,23 @@ class Game {
     document.getElementById("game").style.display = "none";
     document.getElementById("finalPoints").innerText = `Tu puntuación: ${this.gamePoints}`
   }
+
+
+  _update() {
+    this._cleanCanvas();
+    this._drawBullets();
+    this._drawMunitions();
+    this._drawWeapons();
+    this._clearEmptyWeapons();
+    this._drawBoxes();
+    this._drawZombies(this.zombies, "normal");
+    this._drawZombies(this.zombiesPro, "pro");
+    this._drawPlayer();
+    this._canvasLoop();
+    document.getElementById("points").innerText = this.gamePoints
+
+  }
+
 
   start() {
     document.getElementById("gameMusic").play()
@@ -289,6 +388,7 @@ class Game {
     this._assignControlsToKeys();
     this._generateZombies();
     this._generateZombiesPro();
+    this._generateBoxes();
     this._generatePoints();
   };
 }

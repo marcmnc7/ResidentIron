@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>ResidentIron</title>
+  <link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="css/main.css">
 </head>
 
@@ -16,12 +18,12 @@
     <div id="startScreen">
       <h1 class="title">ResidentIron</h1>
       <p class="subtitle">Ready for the battle!?</p>
-      <button class="mainBtn" id="start_game">Play</button>
+      <button class="mainBtn" id="start_game">Play now!</button>
     </div>
 
 
     <div id="game">
-
+      <div id="boxcontains" class="chrome"></div>
       <div class="pointsDiv">
         <p id="points">0</p>
       </div>
@@ -53,6 +55,15 @@
       <div style="display:none;">
         <img id="playerImage" src="src/player.png" width="300" height="227">
       </div>
+      <div style="display:none;">
+        <img id="boxs" src="src/boxs.png" width="300" height="227">
+      </div>
+      <div style="display:none;">
+        <img id="metralleta" src="src/metralleta.png" width="300" height="227">
+      </div>
+      <div style="display:none;">
+        <img id="revolver" src="src/revolver.png" width="300" height="227">
+      </div>
     </div>
 
 
@@ -64,28 +75,33 @@
     </div>
 
 
+
+    <audio controls id="gameMusic">
+      <source src="src/gamemusic.mp3" type="audio/mpeg">
+    </audio>
+    <audio controls id="zombiesSound">
+      <source src="src/gameback.mp3" type="audio/mpeg">
+    </audio>
+    <audio controls id="arrowEffect">
+      <source src="src/arrow.mp3" type="audio/mpeg">
+    </audio>
+    <audio controls id="hitEffect">
+      <source src="src/hit.mp3" type="audio/mpeg">
+    </audio>
+    <audio controls id="dieEffect">
+      <source src="src/die.mp3" type="audio/mpeg">
+    </audio>
+    <audio controls id="michael">
+      <source src="src/michael.mp3" type="audio/mpeg">
+    </audio>
     <script src="js/game.js"></script>
     <script src="js/bullet.js"></script>
+    <script src="js/box.js"></script>
     <script src="js/weapon.js"></script>
     <script src="js/zombie.js"></script>
     <script src="js/player.js"></script>
     <script src="js/main.js"></script>
   </div>
-  <audio controls id="gameMusic">
-    <source src="src/gamemusic.mp3" type="audio/mpeg">
-  </audio>
-  <audio controls id="zombiesSound">
-    <source src="src/gameback.mp3" type="audio/mpeg">
-  </audio>
-  <audio controls id="arrowEffect">
-    <source src="src/arrow.mp3" type="audio/mpeg">
-  </audio>
-  <audio controls id="hitEffect">
-    <source src="src/hit.mp3" type="audio/mpeg">
-  </audio>
-  <audio controls id="dieEffect">
-    <source src="src/die.mp3" type="audio/mpeg">
-  </audio>
 </body>
 
 </html>

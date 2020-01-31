@@ -7,12 +7,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let playAgainBtn = document.getElementById("playAgain");
     let gameOverScreen = document.getElementById("gameOverScreen");
     let game = undefined;
-
-
-
     canvas = document.getElementById('canvas')
     ctx = canvas.getContext('2d');
-
+    document.getElementById("michael").play()
     btnPlay.addEventListener("click", function () {
         screenStart.style.display = "none";
         screenGame.style.display = "block";
@@ -20,6 +17,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             context: ctx,
             player: new Player([new Revolver()])
         });
+        document.getElementById("michael").pause()
         game.start()
     });
 
@@ -37,6 +35,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
         game.start()
     });
+
 
 
 })

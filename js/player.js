@@ -35,6 +35,7 @@ class Player {
   }
 
   changeWeapon() {
+
     this.weaponIndex++
     if (this.weaponIndex >= this.weapon.length) {
       this.weaponIndex = 0;
@@ -63,7 +64,6 @@ class Player {
 
   _blockShoot() {
     this.canShoot = false
-    console.log(this.weapon)
     setTimeout(function () { this.canShoot = true }.bind(this), this.weapon[this.weaponIndex].cadency);
   }
 
