@@ -66,9 +66,22 @@ canvas {
     text-align: center;
 }
 
+#selectScreen{
+    margin-top: 40px;
+    display: none;
+    text-align: center;
+    background-color: rgba(218, 179, 179, 0.5);
+    margin-left: 20%;
+    margin-right: 20%;
+    padding: 10px 40px 40px 40px;
+    border-radius: 10%;
+    border: 10px black solid;
+    height: 500px;
+}
+
 #gameOverScreen{
     margin-top: 150px;
-    display: block;
+    display: none;
     text-align: center;
 }
 
@@ -206,4 +219,44 @@ transition: all 0.4s ease 0s;
     }
   }
   
-  
+  .main-selector{
+    display: flex;
+	flex-direction: row;
+    flex-wrap: nowrap;
+	justify-content: space-evenly;
+	align-items: baseline;
+	align-content: stretch;
+  }
+  .arma{
+      width: 300px;
+  }
+  .personaje{
+    width: 300px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.text{
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+}
+.imagen{
+    width: 100%;
+}
+  .nombre{
+      display: flex;
+      justify-content: space-evenly;
+      align-items: baseline;
+      align-content: stretch;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      font-size: 20px;
+      font-weight: 900;
+  }
+  .left{
+    margin-right: 30px;
+    }
+  .right{
+    margin-left: 30px;
+}

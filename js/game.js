@@ -89,7 +89,7 @@ class Game {
   }
 
   _drawPlayer() {
-    const image = document.getElementById("playerImage");
+    const image = document.getElementById(this.player.name);
     this.context.drawImage(
       image,
       this.player.animationDict[this.player.action][this.player.direction][0], this.player.animationDict[this.player.action][this.player.direction][1], this.player.animationDict[this.player.action][this.player.direction][2], this.player.animationDict[this.player.action][this.player.direction][3],

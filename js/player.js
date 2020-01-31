@@ -1,5 +1,6 @@
 class Player {
-  constructor(weapon) {
+  constructor(name, weapon) {
+    this.name = name;
     this.position = [500, 250];
     this.direction = "d";
     this.size = [50, 60];

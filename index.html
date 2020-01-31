@@ -18,7 +18,67 @@
     <div id="startScreen">
       <h1 class="title">ResidentIron</h1>
       <p class="subtitle">Ready for the battle!?</p>
-      <button class="mainBtn" id="start_game">Play now!</button>
+      <button class="mainBtn" id="go_select">Play now!</button>
+    </div>
+
+    <div id="selectScreen">
+      <p class="subtitle">Elije al último superheroe</p>
+      <div class="main-selector">
+        <div class="personaje">
+          <div id="p1">
+            <div class="nombre">
+              <button id="pbefore1" class="left">
+                &lt
+              </button>
+              <p class="text">Marc</p>
+              <button class="right" id="pnext1">
+                &gt
+              </button>
+            </div>
+            <div class="imagen"> <img src="src/player_one.png" width="200" alt=""> </div>
+          </div>
+          <div id="p2" style="display: none;">
+            <div class="nombre">
+              <button id="pbefore2" class="left">
+                &lt
+              </button>
+              <p class="text">Thor</p>
+              <button id="pnext2" class="right">
+                &gt
+              </button>
+            </div>
+            <div class="imagen"> <img src="src/player_two.png" width="200" alt=""> </div>
+          </div>
+        </div>
+        <div class="arma">
+          <div id="a1" class="a1">
+            <div class="nombre">
+              <button id="abefore1" class="left">
+                &lt
+              </button>
+              <p class="text">Metralleta</p>
+              <button id="anext1" class="right">
+                &gt
+              </button>
+            </div>
+            <div class="imagen"> <img src="src/metralleta.png" width="200" alt=""> </div>
+          </div>
+          <div id="a2" class="a2" style="display: none;">
+            <div class="nombre">
+              <button id="abefore2" class="left">
+                &lt
+              </button>
+              <p class="text">Revolver</p>
+              <button id="anext2" class="right">
+                &gt
+              </button>
+            </div>
+            <div class="imagen"> <img src="src/revolver.png" width="200" alt=""> </div>
+          </div>
+        </div>
+
+      </div>
+      <button class="mainBtn" id="start_game">Go!</button>
     </div>
 
 
@@ -28,7 +88,7 @@
         <p id="points">0</p>
       </div>
       <canvas id="canvas" width="1000" , height="520"></canvas>
-      <div style="display:none;">
+      <div style="display: none;">
         <img id="blood" src="src/blood.png">
       </div>
       <div style="display:none;">
@@ -53,7 +113,10 @@
         <img id="zombiePro" src="src/zombiePro.png" width="300" height="227">
       </div>
       <div style="display:none;">
-        <img id="playerImage" src="src/player.png" width="300" height="227">
+        <img id="player_one" src="src/player.png" width="300" height="227">
+      </div>
+      <div style="display:none;">
+        <img id="player_two" src="src/player2.png" width="300" height="227">
       </div>
       <div style="display:none;">
         <img id="boxs" src="src/boxs.png" width="300" height="227">
