@@ -32,7 +32,6 @@ class Player {
     this.lifePoints = 4;
     this.weapon = weapon;
     this.weaponIndex = 0;
-    this.bullets = [];
   }
 
   changeWeapon() {
@@ -86,24 +85,22 @@ class Player {
   }
 
   shoot() {
-    if (!this.shootInterval) {
-      this.shootInterval = setInterval(function () {
-        if (this.canShoot) {
-          this._blockShoot();
-          if (this.weapon[this.weaponIndex].munition > 0) {
-            this.bullets.push(new Bullet(this.position, this.direction, this.weapon[this.weaponIndex].maxDistance, this.weapon[this.weaponIndex].regression, this.weapon[this.weaponIndex].damage));
-            this.action = "shoot"
-            document.getElementById("arrowEffect").play() // INTENTAR SACAR DE AQUI, ESO ES DE VIEW
-            this._shootAnimation()
-            this.weapon[this.weaponIndex].munition--;
-          }
-        }
-      }.bind(this), this.velocity);
+    if (this.canShoot) {
+      this._blockShoot();
+      if (this.weapon[this.weaponIndex].munition > 0) {
+        this.action = "shoot"
+        document.getElementById("arrowEffect").play() // INTENTAR SACAR DE AQUI, ESO ES DE VIEW
+        this._shootAnimation()
+        this.weapon[this.weaponIndex].munition--;
+        return new Bullet(this.position, this.direction, this.weapon[this.weaponIndex].maxDistance, this.weapon[this.weaponIndex].regression, this.weapon[this.weaponIndex].damage)
+      } else {
+        return false
+      }
     }
   }
 
   stopShoot() {
-    clearInterval(this.shootInterval)
+    //clearInterval(this.shootInterval)
     clearInterval(this.intervalShootAnimation)
     this.intervalShootAnimation = undefined;
     this.action = "walk";

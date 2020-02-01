@@ -10,6 +10,7 @@ class Game {
     this.boxes_loop = undefined;
     this.zombies_loop = undefined;
     this.zombiesPro_loop = undefined;
+    this.bullets = [];
   }
 
   _zombieToPlayerPosition(zombie) {
@@ -107,6 +108,7 @@ class Game {
     let firstC = 0;
     let c2 = 0;
     let c = 0;
+    console.log(this.player.weapon, this.player.weapon[this.player.weaponIndex], this.player.weaponIndex)
     for (let i = 0; i < this.player.weapon[this.player.weaponIndex].munition; i++) {
       let image = document.getElementById(`bulletw`);
       c2 = (i * 25 + 12)
@@ -194,8 +196,7 @@ class Game {
   }
 
   _drawBullets() {
-    this.player.bullets.forEach(bullet => {
-
+    this.bullets.forEach(bullet => {
       let image = document.getElementById(`bullet${bullet.direction}`);
       if (bullet.direction == "w" || bullet.direction == "s") {
         this.context.drawImage(
@@ -204,7 +205,7 @@ class Game {
         );
         if (bullet.initialPosition[1] > bullet.position[1] + bullet.maxBulletDistance || bullet.initialPosition[1] < bullet.position[1] - bullet.maxBulletDistance) {
           bullet._destroy()
-          this.player.bullets.splice(this.player.bullets.indexOf(bullet), 1)
+          this.bullets.splice(this.bullets.indexOf(bullet), 1)
         }
       } else {
         this.context.drawImage(
@@ -213,7 +214,7 @@ class Game {
         );
         if (bullet.initialPosition[0] > bullet.position[0] + bullet.maxBulletDistance || bullet.initialPosition[0] < bullet.position[0] - bullet.maxBulletDistance) {
           bullet._destroy()
-          this.player.bullets.splice(this.player.bullets.indexOf(bullet), 1)
+          this.bullets.splice(this.bullets.indexOf(bullet), 1)
         }
       }
     });
@@ -244,7 +245,7 @@ class Game {
         this.context.fillRect(c, zombie.position[1] - 8, 5, 5);
       }
 
-      let hitBullet = zombie._recievesBullet(this.player.bullets)
+      let hitBullet = zombie._recievesBullet(this.bullets)
       if (hitBullet) {
 
         // BLOOD IMAGE - El zombie se printa encima enseguida. Arreglar.
@@ -254,7 +255,7 @@ class Game {
           zombie.position[0], zombie.position[1], 20, 20
         );
         hitBullet._destroy();
-        this.player.bullets.splice(this.player.bullets.indexOf(hitBullet))
+        this.bullets.splice(this.bullets.indexOf(hitBullet))
 
 
         if (zombie.lifePoints <= 0) {
@@ -279,11 +280,10 @@ class Game {
 
 
   _clearEmptyWeapons() {
-    console.log(this.player.weapon.length, this.player.weaponIndex)
     for (let i = 0; i < this.player.weapon.length; i++) {
       const weapon = this.player.weapon[i];
-      if (weapon.munition <= 0 && this.player.weapon.length > 1 && this.player.weapon[this.player.weaponIndex].munition == 0) {
-        this.player.weaponIndex--;
+      if (weapon.munition <= 0 && this.player.weapon.length > 1) {
+        this.player.changeWeapon();
         this.player.weapon.splice(this.player.weapon.indexOf(weapon), 1)
       }
     }
@@ -310,7 +310,12 @@ class Game {
           this.player.move("d");
           break;
         case 32: // space
-          this.player.shoot();
+          let b = this.player.shoot()
+          console.log("GAME1", b)
+          if (b) {
+            this.bullets.push(b);
+            console.log("GAME2", this.bullets)
+          }
           break
         case 75: // space
           this.player.changeWeapon();
@@ -365,7 +370,6 @@ class Game {
 
   _update() {
     this._cleanCanvas();
-    this._drawBullets();
     this._drawMunitions();
     this._drawWeapons();
     this._clearEmptyWeapons();
@@ -373,6 +377,7 @@ class Game {
     this._drawZombies(this.zombies, "normal");
     this._drawZombies(this.zombiesPro, "pro");
     this._drawPlayer();
+    this._drawBullets();
     this._canvasLoop();
     document.getElementById("points").innerText = this.gamePoints
 
