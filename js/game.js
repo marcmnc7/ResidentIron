@@ -1,20 +1,22 @@
 class Game {
   constructor(options) {
     this.player = options.player;
-    this.gamePoints = 0;
     this.context = options.context;
-    this.zombies = [];
     this.boxes = [];
-    this.zombiesPro = [];
+    this.zombies = [];
+    this.bullets = [];
+    this.obstacles = [];
+    this.zombiesGeneratorVelocity = 1000;
+    this.zombiesProGeneratorVelocity = 10000;
+    this.boxesGeneratorVelocity = 500;
+    this.gamePoints = 0;
     this.canvas_loop = undefined;
     this.boxes_loop = undefined;
     this.zombies_loop = undefined;
     this.zombiesPro_loop = undefined;
-    this.bullets = [];
   }
 
   _zombieToPlayerPosition(zombie) {
-
     let playerX = this.player.position[0]
     let playerY = this.player.position[1]
     let zombieX = zombie.position[0]
@@ -22,24 +24,53 @@ class Game {
     let diffX = Math.abs(playerX - zombieX)
     let diffY = Math.abs(playerY - zombieY)
     if (zombie.canChangeDir) {
-
       if (diffX > diffY) {
-        if (playerX > zombieX) {
-          zombie._move("d")
-        } else {
-          zombie._move("a")
-        }
+        if (playerX > zombieX) { zombie._move("d") } else { zombie._move("a") }
       } else {
-        if (playerY > zombieY) {
-          zombie._move("s")
-        } else {
-          zombie._move("w")
-        }
+        if (playerY > zombieY) { zombie._move("s") } else { zombie._move("w") }
       }
       zombie._blockDirection()
     } else {
       zombie._move(zombie.direction)
     }
+  }
+
+  _generateObstacles() {
+    this.obstacles.push(new Obstacle([200, 150]));
+  }
+
+  _drawObstacles() {
+    const image = document.getElementById('obstacle');
+
+    this.obstacles.forEach(obstacle => {
+      this.context.drawImage(
+        image,
+        obstacle.position[0], obstacle.position[1], obstacle.size[0], obstacle.size[1]
+      );
+      let hitBullet = obstacle._recievesBullet(this.bullets)
+      if (hitBullet) {
+        this.bullets.splice(this.bullets.indexOf(hitBullet))
+      }
+
+
+      let hitPlayer = obstacle.hitPlayer(this.player)
+      if (hitPlayer) {
+        this.player.canWalk = false;
+        if (this.player.direction == "w") {
+          this.player.position[1] += 2
+        } else if (this.player.direction == "s") {
+          this.player.position[1] -= 2
+        } else if (this.player.direction == "d") {
+          this.player.position[0] -= 2
+        } else {
+          this.player.position[0] += 2
+        }
+
+      } else {
+        this.player.canWalk = true;
+      }
+
+    })
   }
 
   _generateZombies() {
@@ -59,14 +90,14 @@ class Game {
           this.zombies.push(new Zombie([-20, Math.random() * 520], "d"))
           break;
       }
-    }.bind(this), 1000);
+    }.bind(this), this.zombiesGeneratorVelocity);
   }
 
   _generateBoxes() {
     this.boxes_loop = setInterval(function () {
       let newBoxLocation = [Math.round(Math.random() * 900) + 20, Math.round(Math.random() * 450) + 20]
       this.boxes.push(new Box(newBoxLocation));
-    }.bind(this), 2000);
+    }.bind(this), this.boxesGeneratorVelocity);
   }
 
   _generateZombiesPro() {
@@ -74,19 +105,19 @@ class Game {
       let newZombieProFrom = Math.round(Math.random() * 4)
       switch (newZombieProFrom) {
         case 1:
-          this.zombiesPro.push(new ZombiePro([Math.random() * 1000, 520], "w"))
+          this.zombies.push(new ZombiePro([Math.random() * 1000, 520], "w"))
           break;
         case 2:
-          this.zombiesPro.push(new ZombiePro([Math.random() * 1000, -20], "s"))
+          this.zombies.push(new ZombiePro([Math.random() * 1000, -20], "s"))
           break;
         case 3:
-          this.zombiesPro.push(new ZombiePro([1000, Math.random() * 520], "a"))
+          this.zombies.push(new ZombiePro([1000, Math.random() * 520], "a"))
           break;
         case 4:
-          this.zombiesPro.push(new ZombiePro([-20, Math.random() * 520], "d"))
+          this.zombies.push(new ZombiePro([-20, Math.random() * 520], "d"))
           break;
       }
-    }.bind(this), 10000);
+    }.bind(this), this.zombiesProGeneratorVelocity);
   }
 
   _drawPlayer() {
@@ -96,68 +127,60 @@ class Game {
       this.player.animationDict[this.player.action][this.player.direction][0], this.player.animationDict[this.player.action][this.player.direction][1], this.player.animationDict[this.player.action][this.player.direction][2], this.player.animationDict[this.player.action][this.player.direction][3],
       this.player.position[0], this.player.position[1], this.player.size[0], this.player.size[1]
     );
-    let c = 0;
-    this.context.fillStyle = "darkred"
-    for (let i = 0; i < this.player.lifePoints; i++) {
-      c = (this.player.position[0] + 8) + (i * 6);
-      this.context.fillRect(c, this.player.position[1] - 3, 5, 5);
-    }
+    this._drawPlayerLife();
   };
 
+  _drawPlayerLife() {
+    let c = 0;
+    this.context.fillStyle = "green"
+    for (let i = 0; i < this.player.lifePoints; i++) {
+      c = this.player.position[0] + (i * 6) + 10;
+      this.context.fillRect(c, this.player.position[1] - 3, 5, 5);
+    }
+  }
+
   _drawMunitions() {
-    let firstC = 0;
     let c2 = 0;
     let c = 0;
-    console.log(this.player.weapon, this.player.weaponIndex)
     for (let i = 0; i < this.player.weapon[this.player.weaponIndex].munition; i++) {
       let image = document.getElementById(`bulletw`);
-      c2 = (i * 25 + 12)
-      c = c2 % 500
+      c2 = (i * 25 + 12); c = c2 % 500
       this.context.drawImage(image, (Math.floor(c2 / 500) * 11) + 10, c, 10, 20)
     }
 
   }
 
-
   _drawWeapons() {
     if (this.player.weapon.length == 1 && this.player.weapon[this.player.weaponIndex].munition == 0) {
-
     } else {
-      let firstC = 0;
-      let c2 = 0;
-      let c = 10;
       for (let i = 0; i < this.player.weapon.length; i++) {
-        let image = ""
+        let image;
         let w = this.player.weapon[i]
         if (w.name == "metralleta") {
           image = document.getElementById(`metralleta`);
         } else {
           image = document.getElementById(`revolver`);
         }
-        c2 = (i * 28 + 14)
-        c = c2 % 500
+        let c2 = (i * 28 + 14); let c = c2 % 500
         this.context.drawImage(image, 940, c, 50, 30)
         if (w === this.player.weapon[this.player.weaponIndex]) {
-          this.context.fillStyle = "darkred";
+          this.context.fillStyle = "red";
           this.context.globalCompositeOperation = 'destination-over';
-          this.context.fillRect(940, c, 50, 30)
+          this.context.fillRect(935, c, 60, 30);
         }
-        this.context.globalCompositeOperation = 'source-over';
-
       }
     }
   }
 
   _showContains(msg) {
-    let txt = document.getElementById("boxcontains")
-    txt.innerText = msg
-    txt.display = "block"
+    let txt = document.getElementById("boxcontains");
+    txt.innerText = msg;
+    txt.display = "block";
     txt.classList.add('fadeout');
     setTimeout(() => {
+      txt.innerHTML = "";
       txt.classList.remove('fadeout');
-      txt.innerHTML = ""
-    }, 1000);
-
+    }, 1200);
   }
 
   _drawBoxes() {
@@ -217,7 +240,6 @@ class Game {
           bullet.position[0] + 10, bullet.position[1], bullet.size[0], bullet.size[1]
         );
         if (bullet.initialPosition[1] > bullet.position[1] + bullet.maxBulletDistance || bullet.initialPosition[1] < bullet.position[1] - bullet.maxBulletDistance) {
-          bullet._destroy()
           this.bullets.splice(this.bullets.indexOf(bullet), 1)
         }
       } else {
@@ -226,7 +248,6 @@ class Game {
           bullet.position[0], bullet.position[1] + 10, bullet.size[0], bullet.size[1]
         );
         if (bullet.initialPosition[0] > bullet.position[0] + bullet.maxBulletDistance || bullet.initialPosition[0] < bullet.position[0] - bullet.maxBulletDistance) {
-          bullet._destroy()
           this.bullets.splice(this.bullets.indexOf(bullet), 1)
         }
       }
@@ -234,13 +255,14 @@ class Game {
   };
 
 
-  _drawZombies(arrayZombies, type) {
-    arrayZombies.forEach(zombie => {
+  _drawZombies() {
+
+    this.zombies.forEach(zombie => {
 
       this._zombieToPlayerPosition(zombie);
       this.context.fillStyle = "black";
       let image;
-      if (type == "pro") {
+      if (zombie.type == "pro") {
         image = document.getElementById("zombiePro");
       } else {
         image = document.getElementById("zombieImage");
@@ -251,14 +273,14 @@ class Game {
         zombie.position[0], zombie.position[1], zombie.size[0], zombie.size[1]
       );
 
-      this.context.fillStyle = "green"
+      this.context.fillStyle = "darkred"
       let c = 0;
       for (let i = 0; i < zombie.lifePoints; i++) {
         c = (zombie.position[0] + 8) + (i * 6);
         this.context.fillRect(c, zombie.position[1] - 8, 5, 5);
       }
 
-      let hitBullet = zombie._recievesBullet(this.bullets)
+      let hitBullet = zombie.recievesBullet(this.bullets)
       if (hitBullet) {
 
         // BLOOD IMAGE - El zombie se printa encima enseguida. Arreglar.
@@ -267,7 +289,6 @@ class Game {
           image,
           zombie.position[0], zombie.position[1], 20, 20
         );
-        hitBullet._destroy();
         this.bullets.splice(this.bullets.indexOf(hitBullet))
 
 
@@ -276,20 +297,22 @@ class Game {
           let dieEffect = document.getElementById("dieEffect")
           dieEffect.volume = 0.35;
           dieEffect.play()
-          zombie._destroy();
-          arrayZombies.splice(arrayZombies.indexOf(zombie), 1)
+          this.zombies.splice(this.zombies.indexOf(zombie), 1)
         }
       }
-      if (zombie.hit(this.player)) {
-        let hitEffect = document.getElementById("hitEffect")
-        hitEffect.play()
+
+      if (zombie.canHitPlayer(this.player)) {
+        document.getElementById("hitEffect").play()
+        this.player.lifePoints--;
         if (this.player.lifePoints <= 0) {
           this._stop()
-          this.player.die()
         }
+
       }
     });
   };
+
+
 
 
   _clearEmptyWeapons() {
@@ -381,17 +404,14 @@ class Game {
 
   _update() {
     this._cleanCanvas();
-    this._drawZombies(this.zombies, "normal");
-    this._drawZombies(this.zombiesPro, "pro");
-    this._drawPlayer();
+    this._drawObstacles();
     this._drawMunitions();
     this._drawWeapons();
-    this._clearEmptyWeapons();
     this._drawBoxes();
-
-
-
     this._drawBullets();
+    this._drawZombies();
+    this._drawPlayer();
+    this._clearEmptyWeapons();
     this._canvasLoop();
     document.getElementById("points").innerText = this.gamePoints
 
@@ -409,5 +429,6 @@ class Game {
     this._generateZombiesPro();
     this._generateBoxes();
     this._generatePoints();
+    this._generateObstacles();
   };
 }

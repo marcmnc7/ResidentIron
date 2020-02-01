@@ -4,10 +4,16 @@ class Zombie {
     this.direction = direction;
     this._move(direction);
     this.size = [40, 60];
-    this.intervalMove = undefined;
-    this.canHit = true;
     this.hitVelocity = 1000;
-    this.action = "walk"
+    this.type = "normal";
+    this.action = "walk";
+    this.walkVelocity = 0.2;
+    this.intervalWalkAnimation;
+    this.intervalHitAnimation;
+    this.timeBlockDir = 1500;
+    this.lifePoints = 3;
+    this.canChangeDir = true;
+    this.canHit = true;
     this.animationDict = {
       "walk": {
         "w": [16, 525, 35, 55],
@@ -22,12 +28,6 @@ class Zombie {
         "a": [16, 334, 35, 55],
       },
     };
-    this.walkVelocity = 0.2
-    this.intervalWalkAnimation;
-    this.intervalHitAnimation;
-    this.timeBlockDir = 1500;
-    this.canChangeDir = true;
-    this.lifePoints = 3;
   }
 
   _blockHit() {
@@ -40,11 +40,7 @@ class Zombie {
     setTimeout(function () { this.canChangeDir = true }.bind(this), this.timeBlockDir);
   }
 
-  _destroy() {
-    clearInterval(this.intervalMove)
-  }
-
-  _recievesBullet(bullets) {
+  recievesBullet(bullets) {
     for (let i = 0; i < bullets.length; i++) {
       const bullet = bullets[i];
       if (this.position[0] < bullet.position[0] + bullet.size[0] &&
@@ -52,8 +48,6 @@ class Zombie {
         this.position[1] < bullet.position[1] + bullet.size[1] &&
         this.position[1] + this.size[1] > bullet.position[1]) {
         this.lifePoints = this.lifePoints - bullet.damage;
-
-        this.action = "stop"
         switch (this.direction) {
           case "s":
             this.position = [this.position[0], this.position[1] - bullet.regression];
@@ -74,27 +68,25 @@ class Zombie {
     }
   }
 
-  hit(player) {
+  canHitPlayer(player) {
     if (this.canHit) {
       if (this.position[0] + 20 < player.position[0] + player.size[0] &&
         this.position[0] + this.size[0] > player.position[0] + 20 &&
         this.position[1] + 20 < player.position[1] + player.size[1] &&
         this.position[1] + this.size[1] > player.position[1] + 20) {
         this._blockHit()
-        this.action = "hit";
         this._hitAnimation()
-        player.lifePoints--;
+        this.action = "hit";
         return true
       }
-      clearInterval(this.intervalHitAnimation)
       this.action = "walk"
       return false
     }
   }
 
+
   _walkAnimation() {
     if (!this.intervalWalkAnimation) {
-
       this.intervalWalkAnimation = setInterval(function () {
         if (this.animationDict[this.action][this.direction][0] > 500) { this.animationDict[this.action][this.direction][0] = 16 }
         this.animationDict[this.action][this.direction][0] = this.animationDict[this.action][this.direction][0] + 64;
@@ -105,7 +97,6 @@ class Zombie {
 
   _hitAnimation() {
     if (!this.intervalHitAnimation) {
-
       this.intervalHitAnimation = setInterval(function () {
         if (this.animationDict[this.action][this.direction][0] > 350) { this.animationDict[this.action][this.direction][0] = 16 }
         this.animationDict[this.action][this.direction][0] = this.animationDict[this.action][this.direction][0] + 64;
@@ -134,9 +125,6 @@ class Zombie {
       }
     };
   }
-
-
-
 }
 
 class ZombiePro extends Zombie {
@@ -145,6 +133,7 @@ class ZombiePro extends Zombie {
     this.lifePoints = 5;
     this.walkVelocity = 0.5;
     this.timeBlockDir = 1200;
+    this.type = "pro";
   }
 
 }

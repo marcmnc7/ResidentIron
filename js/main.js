@@ -1,31 +1,26 @@
 document.addEventListener('DOMContentLoaded', (event) => {
 
+    // GET AND DEFINE ALL ELEMENTS
     let screenStart = document.getElementById("startScreen");
     let screenGame = document.getElementById("game");
-    let btnGo = document.getElementById("go_select");
+    let btnGoSelect = document.getElementById("go_select");
     let btnPlay = document.getElementById("start_game");
     let returnHomeBtn = document.getElementById("toHome");
     let playAgainBtn = document.getElementById("playAgain");
     let gameOverScreen = document.getElementById("gameOverScreen");
     let selectScreen = document.getElementById("selectScreen");
+    let canvas = document.getElementById('canvas')
     let game = undefined;
-    canvas = document.getElementById('canvas')
     ctx = canvas.getContext('2d');
-    document.getElementById("michael").play()
-    btnGo.addEventListener("click", function () {
+
+    // GO TO SELECT PLAYER AND WEAPON
+    btnGoSelect.addEventListener("click", function () {
+        document.getElementById("michael").play()
         screenStart.style.display = "none";
         selectScreen.style.display = "block";
     });
 
-
-
-    returnHomeBtn.addEventListener("click", function () {
-        screenStart.style.display = "block";
-        gameOverScreen.style.display = "none";
-    });
-
-
-    // slider - muy cutre - a mejorars
+    // SLIDER MUY CUTRE
     let p1 = document.getElementById("p1")
     let p2 = document.getElementById("p2")
     let a1 = document.getElementById("a1")
@@ -71,6 +66,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         a1.style.display = "block"
     })
 
+    // PLAY BUTTON
     btnPlay.addEventListener("click", function () {
         let arma = new Revolver();
         let personaje = "player_two"
@@ -90,7 +86,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
         game.start()
     });
 
+    // RETURN TO HOME
+    returnHomeBtn.addEventListener("click", function () {
+        screenStart.style.display = "block";
+        gameOverScreen.style.display = "none";
+    });
 
+    // PLAY AGAIN
     playAgainBtn.addEventListener("click", function () {
         let arma = new Revolver();
         let personaje = "player_two"
@@ -110,6 +112,4 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
         game.start()
     });
-
 })
-

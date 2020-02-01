@@ -11,14 +11,14 @@ class Weapon {
 }
 
 class Metralleta extends Weapon {
-    constructor(damage = 1, cadency = 200, munition = 20, maxDistance = 200, regression = 5, maxMunition = 200) {
+    constructor(damage = 1, cadency = 435, munition = 20, maxDistance = 200, regression = 5, maxMunition = 200) {
         super(damage, cadency, munition, maxDistance, regression, maxMunition);
         this.name = "metralleta"
     }
 }
 
 class Revolver extends Weapon {
-    constructor(damage = 3, cadency = 200, munition = 2, maxDistance = 500, regression = 15, maxMunition = 10) {
+    constructor(damage = 3, cadency = 1000, munition = 4, maxDistance = 500, regression = 20, maxMunition = 10) {
         super(damage, cadency, munition, maxDistance, regression, maxMunition);
         this.name = "revolver"
     }

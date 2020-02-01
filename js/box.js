@@ -1,12 +1,13 @@
 class Box {
   constructor(position) {
+    this.position = position;
     this.content;
     this.itemType;
-    this._generate()
-    this.position = position;
-    this.size = 20
+    this.size = 20;
+    this.typesOfThings = 3;
+    this.typesOfWeapons = 2;
+    this._generate();
   }
-
 
   hitsPlayer(playerPosition, playerSize) {
     if (this.position[0] < playerPosition[0] + playerSize[0] &&
@@ -19,8 +20,7 @@ class Box {
   }
 
   _generate() {
-    let typesOfThings = 2
-    let r = Math.round(Math.random() * typesOfThings)
+    let r = Math.round(Math.random() * (this.typesOfThings - 1))
     if (r == 0) {
       this.itemType = "life"
     } else if (r == 1) {
@@ -33,7 +33,7 @@ class Box {
         this.content = 2
         break;
       case "weapon":
-        let r = Math.round(Math.random() * 1)
+        let r = Math.round(Math.random() * this.typesOfWeapons)
         if (r == 0) {
           this.content = "metralleta"
         } else {

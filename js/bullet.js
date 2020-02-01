@@ -1,26 +1,20 @@
 class Bullet {
     constructor(position, direction, maxDistance, regression, damage) {
-        this.position = position;
         this.initialPosition = [...position]
-        this.size = [0, 0]
-        this.intervalShoot = undefined;
-        this.maxBulletDistance = maxDistance;
+        this.position = position;
         this.direction = direction;
+        this.maxBulletDistance = maxDistance;
         this.regression = regression;
-        this._set_size()
-        this._move(direction);
         this.damage = damage;
+        this.size = [10, 30]
+        this._move(direction);
+        this._correct_size()
+        this.intervalShoot = undefined;
     }
 
-    _destroy() {
-        clearInterval(this.intervalShoot)
-    }
-
-    _set_size() {
+    _correct_size() {
         if (this.direction == "d" || this.direction == "a") {
             this.size = [30, 10]
-        } else {
-            this.size = [10, 30]
         }
     }
 
