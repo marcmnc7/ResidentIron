@@ -108,7 +108,7 @@ class Game {
     let firstC = 0;
     let c2 = 0;
     let c = 0;
-    console.log(this.player.weapon, this.player.weapon[this.player.weaponIndex], this.player.weaponIndex)
+    console.log(this.player.weapon, this.player.weaponIndex)
     for (let i = 0; i < this.player.weapon[this.player.weaponIndex].munition; i++) {
       let image = document.getElementById(`bulletw`);
       c2 = (i * 25 + 12)
@@ -142,6 +142,8 @@ class Game {
           this.context.globalCompositeOperation = 'destination-over';
           this.context.fillRect(940, c, 50, 30)
         }
+        this.context.globalCompositeOperation = 'source-over';
+
       }
     }
   }
@@ -170,8 +172,12 @@ class Game {
         this.boxes.splice(this.boxes.indexOf(box), 1)
         switch (box.itemType) {
           case "munition":
-            this._showContains("+10 municion!")
-            this.player.weapon[this.player.weaponIndex].munition += box.content
+            if (this.player.weapon[this.player.weaponIndex].munition < this.player.weapon[this.player.weaponIndex].maxMunition) {
+              this._showContains("+10 munition!")
+              this.player.weapon[this.player.weaponIndex].munition += box.content
+            } else {
+              this._showContains("Max munition!")
+            }
             break;
           case "weapon":
             switch (box.content) {
@@ -186,9 +192,16 @@ class Game {
             }
             break;
           case "life":
-            this._showContains("+2 vida!")
-            this.player.lifePoints += box.content
-            break;
+            if (this.player.lifePoints == this.player.maxLifePoints) {
+              this._showContains("Max vida!")
+            } else if (this.player.lifePoints == this.player.maxLifePoints - 1) {
+              this._showContains("+1 vida!")
+              this.player.lifePoints += 1
+            } else {
+              this._showContains("+2 vida!")
+              this.player.lifePoints += box.content
+              break;
+            }
         }
       }
 
@@ -283,8 +296,8 @@ class Game {
     for (let i = 0; i < this.player.weapon.length; i++) {
       const weapon = this.player.weapon[i];
       if (weapon.munition <= 0 && this.player.weapon.length > 1) {
-        this.player.changeWeapon();
         this.player.weapon.splice(this.player.weapon.indexOf(weapon), 1)
+        this.player.changeWeapon();
       }
     }
   }
@@ -311,10 +324,8 @@ class Game {
           break;
         case 32: // space
           let b = this.player.shoot()
-          console.log("GAME1", b)
           if (b) {
             this.bullets.push(b);
-            console.log("GAME2", this.bullets)
           }
           break
         case 75: // space
@@ -370,13 +381,16 @@ class Game {
 
   _update() {
     this._cleanCanvas();
+    this._drawZombies(this.zombies, "normal");
+    this._drawZombies(this.zombiesPro, "pro");
+    this._drawPlayer();
     this._drawMunitions();
     this._drawWeapons();
     this._clearEmptyWeapons();
     this._drawBoxes();
-    this._drawZombies(this.zombies, "normal");
-    this._drawZombies(this.zombiesPro, "pro");
-    this._drawPlayer();
+
+
+
     this._drawBullets();
     this._canvasLoop();
     document.getElementById("points").innerText = this.gamePoints

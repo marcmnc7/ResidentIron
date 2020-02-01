@@ -25,17 +25,20 @@ class Player {
         "s": [12, 1160, 45, 55],
         "d": [12, 1223, 45, 55],
         "a": [12, 1095, 45, 55],
-      }
+      },
+
     };
     this.intervalWalkAnimation;
     this.intervalShootAnimation;
     this.lifePoints = 4;
+    this.maxLifePoints = 6;
     this.weapon = weapon;
     this.weaponIndex = 0;
   }
 
-  changeWeapon() {
 
+
+  changeWeapon() {
     this.weaponIndex++
     if (this.weaponIndex >= this.weapon.length) {
       this.weaponIndex = 0;
