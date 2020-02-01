@@ -4,14 +4,30 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let screenStart = document.getElementById("startScreen");
     let screenGame = document.getElementById("game");
     let btnGoSelect = document.getElementById("go_select");
+    let btnGoInstructions = document.getElementById("go_instructions");
     let btnPlay = document.getElementById("start_game");
+    let btnInstructionsToHome = document.getElementById("instrToHome")
     let returnHomeBtn = document.getElementById("toHome");
     let playAgainBtn = document.getElementById("playAgain");
     let gameOverScreen = document.getElementById("gameOverScreen");
     let selectScreen = document.getElementById("selectScreen");
+    let instructionsScreen = document.getElementById("instructionsScreen");
     let canvas = document.getElementById('canvas')
     let game = undefined;
     ctx = canvas.getContext('2d');
+
+    // GO TO INSTRUCTIONS
+    btnGoInstructions.addEventListener("click", function () {
+        document.getElementById("michael").play()
+        screenStart.style.display = "none";
+        instructionsScreen.style.display = "block";
+    });
+
+    // FROM INSTRUCTIONS TO HOME
+    btnInstructionsToHome.addEventListener("click", function () {
+        screenStart.style.display = "block";
+        instructionsScreen.style.display = "none";
+    });
 
     // GO TO SELECT PLAYER AND WEAPON
     btnGoSelect.addEventListener("click", function () {
@@ -112,4 +128,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
         game.start()
     });
+
+
 })

@@ -6,14 +6,15 @@ class Game {
     this.zombies = [];
     this.bullets = [];
     this.obstacles = [];
-    this.zombiesGeneratorVelocity = 1000;
+    this.zombiesGeneratorVelocity = 2000;
     this.zombiesProGeneratorVelocity = 10000;
-    this.boxesGeneratorVelocity = 500;
+    this.boxesGeneratorVelocity = 10000;
     this.gamePoints = 0;
     this.canvas_loop = undefined;
     this.boxes_loop = undefined;
     this.zombies_loop = undefined;
     this.zombiesPro_loop = undefined;
+
   }
 
   _zombieToPlayerPosition(zombie) {
@@ -35,6 +36,7 @@ class Game {
     }
   }
 
+  /*
   _generateObstacles() {
     this.obstacles.push(new Obstacle([200, 150]));
   }
@@ -55,23 +57,29 @@ class Game {
 
       let hitPlayer = obstacle.hitPlayer(this.player)
       if (hitPlayer) {
-        this.player.canWalk = false;
-        if (this.player.direction == "w") {
-          this.player.position[1] += 2
-        } else if (this.player.direction == "s") {
-          this.player.position[1] -= 2
-        } else if (this.player.direction == "d") {
-          this.player.position[0] -= 2
-        } else {
-          this.player.position[0] += 2
+        if (this.player.direction == "a") {
+          if (obstacle.position[0] < this.player.position[0]) {
+            this.player.position[0] += 10
+          }
         }
-
-      } else {
-        this.player.canWalk = true;
+        if (this.player.direction == "s") {
+          if (obstacle.position[1] > this.player.position[1]) {
+            this.player.position[1] -= 10
+          }
+        }
+        if (this.player.direction == "w") {
+          if (obstacle.position[1] < this.player.position[1]) {
+            this.player.position[1] += 10
+          }
+        }
+        if (this.player.direction == "d") {
+          if (obstacle.position[0] < this.player.position[0]) {
+            this.player.position[0] -= 10
+          }
+        }
       }
-
     })
-  }
+  }*/
 
   _generateZombies() {
     this.zombies_loop = setInterval(function () {
@@ -136,6 +144,15 @@ class Game {
     for (let i = 0; i < this.player.lifePoints; i++) {
       c = this.player.position[0] + (i * 6) + 10;
       this.context.fillRect(c, this.player.position[1] - 3, 5, 5);
+    }
+  }
+
+  _drawZombieLife(zombie) {
+    this.context.fillStyle = "darkred"
+    let c = 0;
+    for (let i = 0; i < zombie.lifePoints; i++) {
+      c = zombie.position[0] + (i * 6) + 10;
+      this.context.fillRect(c, zombie.position[1] - 8, 5, 5);
     }
   }
 
@@ -227,7 +244,6 @@ class Game {
             }
         }
       }
-
     });
   }
 
@@ -256,9 +272,7 @@ class Game {
 
 
   _drawZombies() {
-
     this.zombies.forEach(zombie => {
-
       this._zombieToPlayerPosition(zombie);
       this.context.fillStyle = "black";
       let image;
@@ -273,12 +287,7 @@ class Game {
         zombie.position[0], zombie.position[1], zombie.size[0], zombie.size[1]
       );
 
-      this.context.fillStyle = "darkred"
-      let c = 0;
-      for (let i = 0; i < zombie.lifePoints; i++) {
-        c = (zombie.position[0] + 8) + (i * 6);
-        this.context.fillRect(c, zombie.position[1] - 8, 5, 5);
-      }
+      this._drawZombieLife(zombie)
 
       let hitBullet = zombie.recievesBullet(this.bullets)
       if (hitBullet) {
@@ -290,7 +299,6 @@ class Game {
           zombie.position[0], zombie.position[1], 20, 20
         );
         this.bullets.splice(this.bullets.indexOf(hitBullet))
-
 
         if (zombie.lifePoints <= 0) {
           this.gamePoints += 200
@@ -312,9 +320,6 @@ class Game {
     });
   };
 
-
-
-
   _clearEmptyWeapons() {
     for (let i = 0; i < this.player.weapon.length; i++) {
       const weapon = this.player.weapon[i];
@@ -324,11 +329,6 @@ class Game {
       }
     }
   }
-
-  _canvasLoop() {
-    return window.requestAnimationFrame(this._update.bind(this));
-  };
-
 
   _assignControlsToKeys() {
     document.addEventListener('keydown', e => {
@@ -387,24 +387,26 @@ class Game {
     this.context.clearRect(0, 0, 1000, 520)
   }
 
+  _canvasLoop() {
+    return window.requestAnimationFrame(this._update.bind(this));
+  };
+
   _stop() {
     this._cleanCanvas();
     this._update = function () { };
     clearInterval(this.canvas_loop)
     clearInterval(this.zombies_loop)
-    clearInterval(this.boxes_loop)
     clearInterval(this.zombiesPro_loop)
+    clearInterval(this.boxes_loop)
     document.getElementById("gameMusic").pause()
-    document.getElementById("zombiesSound").pause
     document.getElementById("gameOverScreen").style.display = "block";
     document.getElementById("game").style.display = "none";
-    document.getElementById("finalPoints").innerText = `Tu puntuación: ${this.gamePoints}`
+    document.getElementById("finalPoints").innerText = `Tu puntuación: ${this.gamePoints}`;
   }
-
 
   _update() {
     this._cleanCanvas();
-    this._drawObstacles();
+    //this._drawObstacles();
     this._drawMunitions();
     this._drawWeapons();
     this._drawBoxes();
@@ -412,23 +414,21 @@ class Game {
     this._drawZombies();
     this._drawPlayer();
     this._clearEmptyWeapons();
-    this._canvasLoop();
     document.getElementById("points").innerText = this.gamePoints
-
+    this._canvasLoop();
   }
-
 
   start() {
     document.getElementById("gameMusic").play()
     let zombiesSounds = document.getElementById("zombiesSound")
     zombiesSounds.volume = 0.1;
     zombiesSounds.play()
-    let canvas_loop = this._canvasLoop();
+    this._canvasLoop();
     this._assignControlsToKeys();
     this._generateZombies();
     this._generateZombiesPro();
     this._generateBoxes();
     this._generatePoints();
-    this._generateObstacles();
+    //this._generateObstacles();
   };
 }

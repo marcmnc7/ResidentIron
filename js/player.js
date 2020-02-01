@@ -150,6 +150,8 @@ class Player {
     }
   };
 
+
+
   stop(direction) {
     clearInterval(this.intervalWalkAnimation)
     this.intervalWalkAnimation = undefined

@@ -18,10 +18,10 @@ body{
     width: 200px;
     height: 50px;
     color: black;
+    border: none;
     background-color: transparent;
-    border: 4px solid darkred;
-    cursor: pointer;
-    
+    /* border: 4px solid darkred; */
+    cursor: pointer;   
 }
 
 
@@ -71,12 +71,18 @@ canvas {
     display: none;
     text-align: center;
     background-color: rgba(218, 179, 179, 0.5);
-    margin-left: 20%;
-    margin-right: 20%;
-    padding: 10px 40px 40px 40px;
-    border-radius: 10%;
-    border: 10px black solid;
-    height: 500px;
+    border-top: black solid;
+    border-bottom: 5px black solid;
+    height: fit-content;
+    padding: 50px;
+}
+
+#instrToHome{
+    
+}
+
+#instructionsScreen{
+    display: none;
 }
 
 #gameOverScreen{
@@ -105,21 +111,22 @@ canvas {
 
 .title{
     font-size: 100px;
-    
     margin: 0px;
-    text-shadow: 0 0 10px #FF0000;
+    text-shadow: 0 0 12px #FF0000;
     animation: shake 0.5s;
     animation-iteration-count: infinite;
     color: rgb(36, 0, 0);
 }
 
+
 .subtitle{
     font-size: 35px;
-    font-weight: 5000;
+    font-weight: 300;
     color: black;
     text-shadow: 0 0 1px #FF0000;
     animation: shake 4s;
     animation-iteration-count: infinite;
+    margin: 5px;
 }
 @keyframes shake {
     0% { transform: translate(1px, 1px) rotate(0deg); }
@@ -259,4 +266,117 @@ transition: all 0.4s ease 0s;
     }
   .right{
     margin-left: 30px;
+}
+
+
+
+
+/* BUTTON START */
+/* Tamaya */
+.button--tamaya {
+    font-family: 'Cinzel Decorative', cursive;
+	overflow: hidden;
+	color: #5d1f1e;
+    min-width: 180p;
+    font-weight: 900;
+    font-size: 15px;
+    width: 200px;
+    box-shadow: 0 0 5px #000000;
+    animation: shake 7s;
+    animation-iteration-count: infinite;
+}
+.button-tamaya2{
+    animation: shake 4s;
+    animation-iteration-count: infinite;
+}
+.button--tamaya::before,
+.button--tamaya::after {
+	content: attr(data-text);
+	position: absolute;
+	width: 100%;
+	height: 50%;
+	left: 0;
+	background: #5d1f1e;
+	color: #fff;
+	overflow: hidden;
+	-webkit-transition: -webkit-transform 0.3s;
+	transition: transform 0.3s;
+	-webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+	transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+}
+.button--tamaya::after {
+	content: attr(data-text);
+	position: absolute;
+	width: 100%;
+	height: 50%;
+	left: 0;
+	background: #5d1f1e;
+
+}
+.button--tamaya::before {
+	top: 0;
+	padding-top: 1em;
+}
+.button--tamaya::after {
+	bottom: 0;
+    line-height: 0;
+}
+.button--tamaya2::before {
+    background: transparent;
+    color: black;
+}
+.button--tamaya2::after {
+    background: transparent;
+    color: black;
+}
+.button--tamaya > span {
+	display: block;
+	-webkit-transform: scale3d(0.2, 0.2, 1);
+	transform: scale3d(0.2, 0.2, 1);
+	opacity: 0;
+	-webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+	transition: transform 0.3s, opacity 0.3s;
+	-webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+	transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+}
+.button--tamaya:hover::before {
+	-webkit-transform: translate3d(0, -100%, 0);
+	transform: translate3d(0, -100%, 0);
+}
+.button--tamaya:hover::after {
+	-webkit-transform: translate3d(0, 100%, 0);
+	transform: translate3d(0, 100%, 0);
+}
+.button--tamaya:hover > span {
+	opacity: 1;
+	-webkit-transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
+}
+
+/* Common button styles */
+.buttonout {
+	min-width: 150px;
+	max-width: 250px;
+	margin: 1em;
+	padding: 1em 2em;
+	border: none;
+	background: none;
+	color: inherit;
+	vertical-align: middle;
+	position: relative;
+	z-index: 1;
+	-webkit-backface-visibility: hidden;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.button:focus {
+	outline: none;
+}
+.button > span {
+	vertical-align: middle;
+}
+
+/* Borders */
+.button--border-thick {
+	border: 3px solid black;
 }
