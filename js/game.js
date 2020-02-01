@@ -64,7 +64,7 @@ class Game {
 
   _generateBoxes() {
     this.boxes_loop = setInterval(function () {
-      let newBoxLocation = [Math.round(Math.random() * 1000), Math.round(Math.random() * 520)]
+      let newBoxLocation = [Math.round(Math.random() * 900) + 20, Math.round(Math.random() * 450) + 20]
       this.boxes.push(new Box(newBoxLocation));
     }.bind(this), 2000);
   }

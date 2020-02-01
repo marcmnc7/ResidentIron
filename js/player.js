@@ -10,7 +10,6 @@ class Player {
     this.moveIntervalLeft = undefined;
     this.moveIntervalRight = undefined;
     this.shootInterval = undefined;
-    this.shootCadency = 1000;
     this.canShoot = true;
     this.action = "walk"
     this.animationDict = {
@@ -75,9 +74,9 @@ class Player {
     let yesNo = false
     if (this.position[0] >= (1000 - this.size[0])) {
       this.position[0] -= 1
-    } else if (this.position[1] <= 0) {
+    } else if (this.position[1] <= 10) {
       this.position[1] += 1
-    } else if (this.position[0] <= 0) {
+    } else if (this.position[0] <= 10) {
       this.position[0] += 1
     } else if (this.position[1] >= (520 - this.size[1])) {
       this.position[1] -= 1
