@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     returnHomeBtn.addEventListener("click", function () {
         document.getElementById("michael").play()
         screenStart.style.display = "block";
-        document.body.style.backgroundImage = "url(src/bgZombie.jpg)"
+        document.body.style.backgroundImage = "url(./src/bgZombie.jpg)"
         gameOverScreen.style.display = "none";
     });
 

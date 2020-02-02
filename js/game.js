@@ -424,7 +424,7 @@ class Game {
     clearInterval(this.boxes_loop)
     document.getElementById("gameMusic").pause()
     document.getElementById("gameOverScreen").style.display = "block";
-    document.body.style.backgroundImage = "url(src/gameoverback.jpg)"
+    document.body.style.backgroundImage = "url(./src/gameoverback.jpg)"
     document.getElementById("game").style.display = "none";
     document.getElementById("finalPoints").innerText = `Tu puntuación: ${this.gamePoints}`;
   }
