@@ -98,7 +98,7 @@ class Zombie {
   _hitAnimation() {
     if (!this.intervalHitAnimation) {
       this.intervalHitAnimation = setInterval(function () {
-        if (this.animationDict[this.action][this.direction][0] > 350) { this.animationDict[this.action][this.direction][0] = 16 }
+        if (this.animationDict[this.action][this.direction][0] > 300) { this.animationDict[this.action][this.direction][0] = 16 }
         this.animationDict[this.action][this.direction][0] = this.animationDict[this.action][this.direction][0] + 64;
       }.bind(this), 370);
 
