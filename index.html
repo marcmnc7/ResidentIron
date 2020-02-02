@@ -45,7 +45,18 @@
             </div>
             <div class="imagen"> <img src="src/player_two.png" width="200" alt=""> </div>
           </div>
+          <div id="p3" style="display: none;">
+            <div class="nombre">
+              <i class="fas fa-chevron-left left" id="pbefore3"></i>
+
+              <p class="text">Jorge</p>
+              <i class="fas fa-chevron-right right" id="pnext3"></i>
+            </div>
+            <div class="imagen"> <img src="src/player_three.png" width="200" alt=""> </div>
+          </div>
         </div>
+        <button data-text="Start" class="buttonout button--tamaya button--border-thick" id="start_game">Killing</button>
+
         <div class="arma">
           <div id="a1" class="a1">
             <div class="nombre">
@@ -66,7 +77,6 @@
         </div>
 
       </div>
-      <button class="mainBtn" id="start_game">Go!</button>
     </div>
 
     <div id="instructionsScreen">
@@ -77,7 +87,6 @@
     </div>
 
     <div id="game">
-      <div id="boxcontains" class="chrome"></div>
       <div class="pointsDiv">
         <p id="points">0</p>
       </div>
@@ -113,6 +122,9 @@
         <img id="player_two" src="src/player2.png" width="300" height="227">
       </div>
       <div style="display:none;">
+        <img id="player_three" src="src/player3.png" width="300" height="227">
+      </div>
+      <div style="display:none;">
         <img id="boxs" src="src/boxs.png" width="300" height="227">
       </div>
       <div style="display:none;">
@@ -130,9 +142,9 @@
     <div id="gameOverScreen">
       <p id="finalPoints"></p>
       <h1 class="title">Game Over</h1>
-      <button id="toHome" class="buttonout button--tamaya button--border-thick"
+      <button id="toHome" class="buttonout buttonout2 button--tamaya button--tamaya3 button--border-thick2"
         data-text="Return"><span>Home</span></button>
-      <button id="playAgain" class="buttonout button--tamaya button--tamaya2 button--border-thick"
+      <button id="playAgain" class="buttonout buttonout2 button--tamaya button--tamaya3 button--border-thick2"
         data-text="Play"><span>Again</span></button>
 
     </div>

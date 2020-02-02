@@ -3,7 +3,7 @@ class Box {
     this.position = position;
     this.content;
     this.itemType;
-    this.size = 20;
+    this.size = 30;
     this.typesOfThings = 3;
     this.typesOfWeapons = 2;
     this._generate();

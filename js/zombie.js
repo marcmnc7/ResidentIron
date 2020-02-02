@@ -3,7 +3,7 @@ class Zombie {
     this.position = position;
     this.direction = direction;
     this._move(direction);
-    this.size = [40, 60];
+    this.size = [40, 55];
     this.hitVelocity = 1000;
     this.type = "normal";
     this.action = "walk";

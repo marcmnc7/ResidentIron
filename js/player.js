@@ -115,6 +115,8 @@ class Player {
             this.moveIntervalUp = setInterval(function () {
               if (this.canWalk) {
                 this.position = [this.position[0], this.position[1] - 1]
+                this.size[1] = this.size[1] - 0.03
+                this.size[0] = this.size[0] - 0.03
               }
             }.bind(this), this.velocity);
           }
@@ -124,6 +126,8 @@ class Player {
             this.moveIntervalDown = setInterval(function () {
               if (this.canWalk) {
                 this.position = [this.position[0], this.position[1] + 1]
+                this.size[1] = this.size[1] + 0.03
+                this.size[0] = this.size[0] + 0.03
               }
             }.bind(this), this.velocity);
           }

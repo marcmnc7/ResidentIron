@@ -51,15 +51,14 @@ canvas {
     width: 1000px;
     height: 520px;
     background-image: url(../src/background.jpg);
-    border: rgba(85, 0, 0, 0.8) solid 7px;
+    border: rgb(65, 2, 2) solid 1px;
+    box-shadow: 0 0 55px rgba(145, 0, 0, 0.57);
+    
     left: 50%;
     margin-left: -500px;
     top: 50%;
     margin-top: -260px;
-    opacity: 0.9;
-   
 }
-
 #startScreen{
     margin-top: 150px;
     display: block;
@@ -71,10 +70,11 @@ canvas {
     display: none;
     text-align: center;
     background-color: rgba(218, 179, 179, 0.5);
-    border-top: black solid;
-    border-bottom: 5px black solid;
+    border-top:1px black solid;
+    border-bottom: 1px black solid;
     height: fit-content;
     padding: 50px;
+    box-shadow: 0 0 15px darkred;
 }
 
 #instrToHome{
@@ -86,6 +86,7 @@ canvas {
 }
 
 #gameOverScreen{
+    
     margin-top: 150px;
     display: none;
     text-align: center;
@@ -154,6 +155,12 @@ canvas {
 #finalPoints{
     margin: 10px;
     font-size: 40px;
+    font-weight: 300;
+    color: white;
+    animation: shake 7s;
+    animation-iteration-count: infinite;
+    font-weight: 500;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black;
 }
 
 .vidas{
@@ -161,35 +168,21 @@ canvas {
 }
 
 
-.example_a {
-color: #fff !important;
-text-transform: uppercase;
-text-decoration: none;
-background: #5f0605;
-padding: 20px;
-border-radius: 5px;
-display: inline-block;
-border: none;
-transition: all 0.4s ease 0s;
-}
-
-.example_a:hover {
-background: #434343;
-letter-spacing: 1px;
--webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
--moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
-box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
-transition: all 0.4s ease 0s;
-}
-
 .chrome {
-    background-image: -webkit-linear-gradient(#378DBC 0%, #B6E8F1 46%, #ffffff 50%, #32120E 54%, #FFC488 58%, #582C11 90%, #EC9B4E 100%);
+    /* background-image: -webkit-linear-gradient(#378DBC 0%, #B6E8F1 46%, #ffffff 50%, #32120E 54%, #FFC488 58%, #582C11 90%, #EC9B4E 100%); */
+    background-image: -webkit-linear-gradient(
+        rgb(68, 19, 19) 0%, 
+        rgb(102, 31, 31) 46%, 
+        #722323 50%, 
+        rgb(161, 62, 62) 54%, 
+        rgb(182, 41, 41) 58%, 
+        rgb(94, 19, 19) 90%, 
+        rgb(122, 9, 9) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    -webkit-text-stroke: 2px rgb(92, 92, 92);
-    font-size: 70px;
+    -webkit-text-stroke: 2px rgb(255, 255, 255);
+    font-size: 90px;
     font-family: 'Titillium Web', sans-serif;
-    font-family: 'Cinzel Decorative', cursive;
     font-style: italic;
     margin: 0;
     line-height: 1;
@@ -231,7 +224,7 @@ transition: all 0.4s ease 0s;
 	flex-direction: row;
     flex-wrap: nowrap;
 	justify-content: space-evenly;
-	align-items: baseline;
+	align-items: center;
 	align-content: stretch;
   }
   .arma{
@@ -329,6 +322,14 @@ transition: all 0.4s ease 0s;
     background: transparent;
     color: black;
 }
+.button--tamaya3::before {
+    background: transparent;
+    color: white;
+}
+.button--tamaya3::after {
+    background: transparent;
+    color: white;
+}
 .button--tamaya > span {
 	display: block;
 	-webkit-transform: scale3d(0.2, 0.2, 1);
@@ -369,6 +370,11 @@ transition: all 0.4s ease 0s;
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.buttonout2{
+    color: white;
+    background: #5d1f1e;
+}
+
 .button:focus {
 	outline: none;
 }
@@ -379,4 +385,7 @@ transition: all 0.4s ease 0s;
 /* Borders */
 .button--border-thick {
 	border: 3px solid black;
+}
+.button--border-thick2 {
+	border: 3px solid white;
 }

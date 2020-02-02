@@ -6,7 +6,7 @@ class Bullet {
         this.maxBulletDistance = maxDistance;
         this.regression = regression;
         this.damage = damage;
-        this.size = [10, 30]
+        this.size = [5, 20]
         this._move(direction);
         this._correct_size()
         this.intervalShoot = undefined;
@@ -14,7 +14,7 @@ class Bullet {
 
     _correct_size() {
         if (this.direction == "d" || this.direction == "a") {
-            this.size = [30, 10]
+            this.size = [20, 5]
         }
     }
 

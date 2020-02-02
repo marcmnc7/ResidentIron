@@ -8,7 +8,7 @@ class Game {
     this.obstacles = [];
     this.zombiesGeneratorVelocity = 2000;
     this.zombiesProGeneratorVelocity = 10000;
-    this.boxesGeneratorVelocity = 10000;
+    this.boxesGeneratorVelocity = 2000;
     this.gamePoints = 0;
     this.canvas_loop = undefined;
     this.boxes_loop = undefined;
@@ -181,7 +181,7 @@ class Game {
         let c2 = (i * 28 + 14); let c = c2 % 500
         this.context.drawImage(image, 940, c, 50, 30)
         if (w === this.player.weapon[this.player.weaponIndex]) {
-          this.context.fillStyle = "red";
+          this.context.fillStyle = "green";
           this.context.globalCompositeOperation = 'destination-over';
           this.context.fillRect(935, c, 60, 30);
         }
@@ -190,14 +190,17 @@ class Game {
   }
 
   _showContains(msg) {
-    let txt = document.getElementById("boxcontains");
+    let txt = document.createElement('div')
+    document.getElementById("game").appendChild(txt)
+    txt.classList.add('chrome')
+    txt.id = "boxcontains"
     txt.innerText = msg;
     txt.display = "block";
     txt.classList.add('fadeout');
     setTimeout(() => {
       txt.innerHTML = "";
       txt.classList.remove('fadeout');
-    }, 1200);
+    }, 1500);
   }
 
   _drawBoxes() {
@@ -213,32 +216,36 @@ class Game {
         switch (box.itemType) {
           case "munition":
             if (this.player.weapon[this.player.weaponIndex].munition < this.player.weapon[this.player.weaponIndex].maxMunition) {
-              this._showContains("+10 munition!")
+              this._showContains("+10 munition")
               this.player.weapon[this.player.weaponIndex].munition += box.content
             } else {
-              this._showContains("Max munition!")
+              this._showContains("Max munition")
             }
             break;
           case "weapon":
-            switch (box.content) {
-              case "revolver":
-                this._showContains("Nuevo RevolveR!!")
-                this.player.weapon.push(new Revolver());
-                break;
-              case "metralleta":
-                this._showContains("Nueva Metralleta!")
-                this.player.weapon.push(new Metralleta());
-                break;
+            if (this.player.weapon.length < 10) {
+              switch (box.content) {
+                case "revolver":
+                  this._showContains("Revolver")
+                  this.player.weapon.push(new Revolver());
+                  break;
+                case "metralleta":
+                  this._showContains("Metralleta")
+                  this.player.weapon.push(new Metralleta());
+                  break;
+              }
+            } else {
+              this._showContains("Max weapons")
             }
             break;
           case "life":
             if (this.player.lifePoints == this.player.maxLifePoints) {
-              this._showContains("Max vida!")
+              this._showContains("Max vida")
             } else if (this.player.lifePoints == this.player.maxLifePoints - 1) {
-              this._showContains("+1 vida!")
+              this._showContains("+1 vida")
               this.player.lifePoints += 1
             } else {
-              this._showContains("+2 vida!")
+              this._showContains("+2 vida")
               this.player.lifePoints += box.content
               break;
             }
@@ -251,18 +258,35 @@ class Game {
     this.bullets.forEach(bullet => {
       let image = document.getElementById(`bullet${bullet.direction}`);
       if (bullet.direction == "w" || bullet.direction == "s") {
-        this.context.drawImage(
-          image,
-          bullet.position[0] + 10, bullet.position[1], bullet.size[0], bullet.size[1]
-        );
+        if (bullet.direction == "w") {
+          this.context.drawImage(
+            image,
+            bullet.position[0] + 10, bullet.position[1] - 20, bullet.size[0], bullet.size[1]
+          );
+        } else {
+          this.context.drawImage(
+            image,
+            bullet.position[0] + 10, bullet.position[1] + 35, bullet.size[0], bullet.size[1]
+          );
+
+        }
         if (bullet.initialPosition[1] > bullet.position[1] + bullet.maxBulletDistance || bullet.initialPosition[1] < bullet.position[1] - bullet.maxBulletDistance) {
           this.bullets.splice(this.bullets.indexOf(bullet), 1)
         }
       } else {
-        this.context.drawImage(
-          image,
-          bullet.position[0], bullet.position[1] + 10, bullet.size[0], bullet.size[1]
-        );
+        if (bullet.direction == "d") {
+          this.context.drawImage(
+            image,
+            bullet.position[0] + 30, bullet.position[1] + 20, bullet.size[0], bullet.size[1]
+          );
+
+        } else {
+          this.context.drawImage(
+            image,
+            bullet.position[0] - 15, bullet.position[1] + 20, bullet.size[0], bullet.size[1]
+          );
+
+        }
         if (bullet.initialPosition[0] > bullet.position[0] + bullet.maxBulletDistance || bullet.initialPosition[0] < bullet.position[0] - bullet.maxBulletDistance) {
           this.bullets.splice(this.bullets.indexOf(bullet), 1)
         }
@@ -400,6 +424,7 @@ class Game {
     clearInterval(this.boxes_loop)
     document.getElementById("gameMusic").pause()
     document.getElementById("gameOverScreen").style.display = "block";
+    document.body.style.backgroundImage = "url(../src/gameoverback.jpg)"
     document.getElementById("game").style.display = "none";
     document.getElementById("finalPoints").innerText = `Tu puntuación: ${this.gamePoints}`;
   }
