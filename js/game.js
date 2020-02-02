@@ -7,14 +7,14 @@ class Game {
     this.bullets = [];
     this.obstacles = [];
     this.zombiesGeneratorVelocity = 2000;
-    this.zombiesProGeneratorVelocity = 10000;
-    this.boxesGeneratorVelocity = 2000;
+    this.zombiesProGeneratorVelocity = 5000;
+    this.boxesGeneratorVelocity = 10000;
     this.gamePoints = 0;
     this.canvas_loop = undefined;
     this.boxes_loop = undefined;
     this.zombies_loop = undefined;
     this.zombiesPro_loop = undefined;
-
+    this.msgOutOfMunitionShowed = false;
   }
 
   _zombieToPlayerPosition(zombie) {
@@ -30,7 +30,9 @@ class Game {
       } else {
         if (playerY > zombieY) { zombie._move("s") } else { zombie._move("w") }
       }
+      zombie.checkCollisionWithOtherZombie(this.zombies)
       zombie._blockDirection()
+
     } else {
       zombie._move(zombie.direction)
     }
@@ -169,7 +171,12 @@ class Game {
 
   _drawWeapons() {
     if (this.player.weapon.length == 1 && this.player.weapon[this.player.weaponIndex].munition == 0) {
+      if (!this.msgOutOfMunitionShowed) {
+        this._showContains("Out of munition");
+        this.msgOutOfMunitionShowed = true
+      }
     } else {
+      this.msgOutOfMunitionShowed = false;
       for (let i = 0; i < this.player.weapon.length; i++) {
         let image;
         let w = this.player.weapon[i]
@@ -334,6 +341,7 @@ class Game {
       }
 
       if (zombie.canHitPlayer(this.player)) {
+        this.player._isRecievingHit()
         document.getElementById("hitEffect").play()
         this.player.lifePoints--;
         if (this.player.lifePoints <= 0) {
@@ -347,9 +355,11 @@ class Game {
   _clearEmptyWeapons() {
     for (let i = 0; i < this.player.weapon.length; i++) {
       const weapon = this.player.weapon[i];
-      if (weapon.munition <= 0 && this.player.weapon.length > 1) {
-        this.player.weapon.splice(this.player.weapon.indexOf(weapon), 1)
-        this.player.changeWeapon();
+      if (weapon.munition <= 0) {
+        if (this.player.weapon.length > 1) {
+          this.player.weapon.splice(this.player.weapon.indexOf(weapon), 1)
+          this.player.changeWeapon();
+        }
       }
     }
   }
@@ -407,6 +417,12 @@ class Game {
     }, 200);
   }
 
+  _drawPoints() {
+    ctx.font = "30px Cinzel Decorative";
+    this.context.fillStyle = "black";
+    ctx.fillText(this.gamePoints, 480, 30);
+  }
+
   _cleanCanvas() {
     this.context.clearRect(0, 0, 1000, 520)
   }
@@ -424,7 +440,6 @@ class Game {
     clearInterval(this.boxes_loop)
     document.getElementById("gameMusic").pause()
     document.getElementById("gameOverScreen").style.display = "block";
-    document.body.style.backgroundImage = "url(./src/gameoverback.jpg)"
     document.getElementById("game").style.display = "none";
     document.getElementById("finalPoints").innerText = `Tu puntuación: ${this.gamePoints}`;
   }
@@ -434,12 +449,12 @@ class Game {
     //this._drawObstacles();
     this._drawMunitions();
     this._drawWeapons();
-    this._drawBoxes();
     this._drawBullets();
+    this._drawPoints();
     this._drawZombies();
+    this._drawBoxes();
     this._drawPlayer();
     this._clearEmptyWeapons();
-    document.getElementById("points").innerText = this.gamePoints
     this._canvasLoop();
   }
 

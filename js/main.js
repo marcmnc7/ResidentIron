@@ -94,6 +94,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // PLAY BUTTON
     btnPlay.addEventListener("click", function () {
+        document.body.style.backgroundImage = "url(./src/gameoverback.jpg)"
         let arma = new Revolver();
         let personaje = "player_one"
         if (a1.style.display != "none") {

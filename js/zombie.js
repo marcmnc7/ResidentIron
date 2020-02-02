@@ -84,6 +84,31 @@ class Zombie {
     }
   }
 
+  checkCollisionWithOtherZombie(zombies) {
+
+    zombies.forEach(z => {
+      if (z != this)
+        if (this.position[0] + 20 < z.position[0] + z.size[0] &&
+          this.position[0] + this.size[0] > z.position[0] + 20 &&
+          this.position[1] + 20 < z.position[1] + z.size[1] &&
+          this.position[1] + this.size[1] > z.position[1] + 20) {
+
+          if (this.direction == "s") {
+            z._move("d")
+          } else if (this.direction == "w") {
+            z._move("a")
+          } else if (this.direction == "d") {
+            z._move("w")
+          } else {
+            z._move("s")
+          }
+
+          return true
+        }
+      return false
+    });
+  }
+
 
   _walkAnimation() {
     if (!this.intervalWalkAnimation) {

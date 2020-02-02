@@ -6,12 +6,13 @@ class Player {
     this.direction = "s";
     this.position = [500, 250];
     this.size = [50, 60];
-    this.velocity = 10; // less is fast
+    this.velocity = 20; // less is fast
     this.action = "walk";
     this.lifePoints = 4;
     this.maxLifePoints = 6;
     this.canShoot = true;
     this.canWalk = true;
+    this.isRecievingHit = false;
     this._inBorders();
     this.intervalWalkAnimation;
     this.intervalShootAnimation;
@@ -69,6 +70,11 @@ class Player {
     setTimeout(() => { this.canShoot = true }, this.weapon[this.weaponIndex].cadency);
   }
 
+  _isRecievingHit() {
+    this.isRecievingHit = true;
+    setTimeout(() => { this.isRecievingHit = false }, 250);
+  }
+
   _inBorders() {
     setInterval(() => {
       let yesNo = false
@@ -107,13 +113,14 @@ class Player {
 
   move(newDirection) {
     this.direction = newDirection
-    if (this.action == "walk" && this.canWalk) {
+    this.stopShoot()
+    if (this.action == "walk") {
       this._walkAnimation()
       switch (newDirection) {
         case "w":
           if (!this.moveIntervalUp) {
             this.moveIntervalUp = setInterval(function () {
-              if (this.canWalk) {
+              if (this.canWalk && !this.isRecievingHit) {
                 this.position = [this.position[0], this.position[1] - 1]
                 this.size[1] = this.size[1] - 0.03
                 this.size[0] = this.size[0] - 0.03
@@ -124,7 +131,7 @@ class Player {
         case "s":
           if (!this.moveIntervalDown) {
             this.moveIntervalDown = setInterval(function () {
-              if (this.canWalk) {
+              if (this.canWalk && !this.isRecievingHit) {
                 this.position = [this.position[0], this.position[1] + 1]
                 this.size[1] = this.size[1] + 0.03
                 this.size[0] = this.size[0] + 0.03
@@ -135,7 +142,7 @@ class Player {
         case "a":
           if (!this.moveIntervalLeft) {
             this.moveIntervalLeft = setInterval(function () {
-              if (this.canWalk) {
+              if (this.canWalk && !this.isRecievingHit) {
                 this.position = [this.position[0] - 1, this.position[1]]
               }
             }.bind(this), this.velocity);
@@ -144,7 +151,7 @@ class Player {
         case "d":
           if (!this.moveIntervalRight) {
             this.moveIntervalRight = setInterval(function () {
-              if (this.canWalk) {
+              if (this.canWalk && !this.isRecievingHit) {
                 this.position = [this.position[0] + 1, this.position[1]]
               }
             }.bind(this), this.velocity);
