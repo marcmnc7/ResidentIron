@@ -24,6 +24,16 @@ body{
     cursor: pointer;   
 }
 
+.li-instr{
+    list-style-image: url('../src/swordSmal.png');
+    
+}
+
+.li-instr li{
+    margin: 5px;
+    
+}
+
 
 .mainBtn2{
     border: none;
@@ -89,6 +99,19 @@ canvas {
 
 #instructionsScreen{
     display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    text-align: center;
+    background-color: rgba(218, 179, 179, 0.5);
+    border-top:1px black solid;
+    border-bottom: 1px black solid;
+    height: fit-content;
+    padding: 50px;
+    box-shadow: 0 0 15px darkred;
+
 }
 
 #gameOverScreen{
@@ -255,8 +278,19 @@ canvas {
     margin-left: 30px;
 }
 
+.instructions-holder{
+    text-align: left;
+}
 
+.title-instr{
+    font-size: 30px;
+    text-align: center;
+    font-weight: 600;
+}
 
+.btn-instr-back-blck{
+text-align: center;
+}
 
 /* BUTTON START */
 /* Tamaya */
