@@ -1,5 +1,10 @@
-body, html {height:100%;}
-div.wrap {height:100%; overflow:hidden;}
+body, html {
+    height:100%;
+}
+
+div.wrap {
+    height:100%; overflow:hidden;
+}
 
 body{
     background-image: url(../src/bgZombie.jpg);
@@ -20,20 +25,16 @@ body{
     color: black;
     border: none;
     background-color: transparent;
-    /* border: 4px solid darkred; */
     cursor: pointer;   
 }
 
 .li-instr{
     list-style-image: url('../src/swordSmal.png');
-    
 }
 
 .li-instr li{
     margin: 5px;
-    
 }
-
 
 .mainBtn2{
     border: none;
@@ -50,11 +51,12 @@ body{
     background-color: rgba(36, 0, 0, 0.5); 
     border: 2px solid darkred;
     border-radius: 1%;
-    
 }
+
 audio{
     display: none;
 }
+
 canvas {
     position: absolute;
     display: block;
@@ -63,11 +65,11 @@ canvas {
     background-image: url(../src/background.jpg);
     border: rgb(65, 2, 2) solid 1px;
     box-shadow: 0 0 55px rgba(145, 0, 0, 0.57);
-    
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
 #startScreen{
     display: block;
     text-align: center;
@@ -79,7 +81,6 @@ canvas {
 
 #selectScreen{
     position: absolute;
-    
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -91,10 +92,6 @@ canvas {
     height: fit-content;
     padding: 50px;
     box-shadow: 0 0 15px darkred;
-}
-
-#instrToHome{
-    
 }
 
 #instructionsScreen{
@@ -111,7 +108,6 @@ canvas {
     height: fit-content;
     padding: 50px;
     box-shadow: 0 0 15px darkred;
-
 }
 
 #gameOverScreen{
@@ -141,7 +137,6 @@ canvas {
     color: rgb(36, 0, 0);
 }
 
-
 .subtitle{
     font-size: 35px;
     font-weight: 300;
@@ -151,6 +146,7 @@ canvas {
     animation-iteration-count: infinite;
     margin: 5px;
 }
+
 @keyframes shake {
     0% { transform: translate(1px, 1px) rotate(0deg); }
     10% { transform: translate(-1px, -2px) rotate(-1deg); }
@@ -163,7 +159,7 @@ canvas {
     80% { transform: translate(-1px, -1px) rotate(1deg); }
     90% { transform: translate(1px, 2px) rotate(0deg); }
     100% { transform: translate(1px, -2px) rotate(-1deg); }
-  }
+}
 
 .municion{
     position: absolute;
@@ -184,9 +180,7 @@ canvas {
     position: absolute;
 }
 
-
 .chrome {
-    /* background-image: -webkit-linear-gradient(#378DBC 0%, #B6E8F1 46%, #ffffff 50%, #32120E 54%, #FFC488 58%, #582C11 90%, #EC9B4E 100%); */
     background-image: -webkit-linear-gradient(
         rgb(68, 19, 19) 0%, 
         rgb(102, 31, 31) 46%, 
@@ -214,67 +208,74 @@ canvas {
     animation-name: topFadeOut;
     animation-duration: 1.5s;
     width: 800px;
-  }
+}
 
-  @keyframes topFadeOut {
+@keyframes topFadeOut {
     0% {
-      position: absolute;
-      left: -3rem;
-      opacity: 0;
+        position: absolute;
+        left: -3rem;
+        opacity: 0;
     }
-  
+
     50% {
-      position: absolute;
-      left: 30%;
-      opacity: 1;
+        position: absolute;
+        left: 30%;
+        opacity: 1;
     }
-  
+
     100% {
-      position: absolute;
-      opacity: 1;
-      left: 100%;
+        position: absolute;
+        opacity: 1;
+        left: 100%;
     }
-  }
+}
   
-  .main-selector{
+.main-selector{
     display: flex;
-	flex-direction: row;
+    flex-direction: row;
     flex-wrap: nowrap;
-	justify-content: space-evenly;
-	align-items: center;
-	align-content: stretch;
-  }
-  .arma{
-      width: 300px;
-  }
-  .personaje{
+    justify-content: space-evenly;
+    align-items: center;
+    align-content: stretch;
+}
+
+.arma{
+    width: 300px;
+}
+
+.personaje{
     width: 300px;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
 }
+
 .text{
     display: inline-block;
     width: 100px;
     text-align: center;
 }
+
 .imagen{
     width: 100%;
 }
-  .nombre{
-      display: flex;
-      justify-content: space-evenly;
-      align-items: baseline;
-      align-content: stretch;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      font-size: 20px;
-      font-weight: 900;
-  }
-  .left{
+
+.nombre{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: baseline;
+    align-content: stretch;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.left{
     margin-right: 30px;
-    }
-  .right{
+}
+
+.right{
     margin-left: 30px;
 }
 
@@ -289,7 +290,7 @@ canvas {
 }
 
 .btn-instr-back-blck{
-text-align: center;
+    text-align: center;
 }
 
 /* BUTTON START */
@@ -306,10 +307,12 @@ text-align: center;
     animation: shake 7s;
     animation-iteration-count: infinite;
 }
+
 .button-tamaya2{
     animation: shake 4s;
     animation-iteration-count: infinite;
 }
+
 .button--tamaya::before,
 .button--tamaya::after {
 	content: attr(data-text);
@@ -325,6 +328,7 @@ text-align: center;
 	-webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
 	transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
 }
+
 .button--tamaya::after {
 	content: attr(data-text);
 	position: absolute;
@@ -332,32 +336,38 @@ text-align: center;
 	height: 50%;
 	left: 0;
 	background: #5d1f1e;
-
 }
+
 .button--tamaya::before {
 	top: 0;
 	padding-top: 1em;
 }
+
 .button--tamaya::after {
 	bottom: 0;
     line-height: 0;
 }
+
 .button--tamaya2::before {
     background: transparent;
     color: black;
 }
+
 .button--tamaya2::after {
     background: transparent;
     color: black;
 }
+
 .button--tamaya3::before {
     background: transparent;
     color: white;
 }
+
 .button--tamaya3::after {
     background: transparent;
     color: white;
 }
+
 .button--tamaya > span {
 	display: block;
 	-webkit-transform: scale3d(0.2, 0.2, 1);
@@ -368,14 +378,17 @@ text-align: center;
 	-webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
 	transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
 }
+
 .button--tamaya:hover::before {
 	-webkit-transform: translate3d(0, -100%, 0);
 	transform: translate3d(0, -100%, 0);
 }
+
 .button--tamaya:hover::after {
 	-webkit-transform: translate3d(0, 100%, 0);
 	transform: translate3d(0, 100%, 0);
 }
+
 .button--tamaya:hover > span {
 	opacity: 1;
 	-webkit-transform: scale3d(1, 1, 1);
@@ -406,6 +419,7 @@ text-align: center;
 .button:focus {
 	outline: none;
 }
+
 .button > span {
 	vertical-align: middle;
 }
@@ -414,6 +428,7 @@ text-align: center;
 .button--border-thick {
 	border: 3px solid black;
 }
+
 .button--border-thick2 {
 	border: 3px solid white;
 }

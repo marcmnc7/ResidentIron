@@ -20,6 +20,7 @@ class Player {
     this.moveIntervalDown = undefined;
     this.moveIntervalLeft = undefined;
     this.moveIntervalRight = undefined;
+    this.intervalBorders = 1;
     this.animationDict = {
       "walk": {
         "w": [12, 520, 45, 55],
@@ -76,7 +77,7 @@ class Player {
   }
 
   _inBorders() {
-    setInterval(() => {
+    this.intervalBorders = setInterval(() => {
       let yesNo = false
       if (this.position[0] >= (1000 - this.size[0])) {
         this.position[0] -= 1
@@ -161,7 +162,10 @@ class Player {
     }
   };
 
-
+  destroy() {
+    clearInterval(this.intervalBorders)
+    this.intervalBorders = undefined;
+  }
 
   stop(direction) {
     clearInterval(this.intervalWalkAnimation)

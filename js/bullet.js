@@ -9,7 +9,7 @@ class Bullet {
         this.size = [5, 20]
         this._move(direction);
         this._correct_size()
-        this.intervalShoot = undefined;
+        this.intervalShoot = 1;
     }
 
     _correct_size() {
@@ -41,5 +41,10 @@ class Bullet {
                 }.bind(this), 1);
                 break;
         }
+    }
+
+    destroy() {
+        this.intervalShoot = undefined;
+        clearInterval(this.intervalShoot)
     }
 }

@@ -6,8 +6,8 @@ class Game {
     this.zombies = [];
     this.bullets = [];
     this.obstacles = [];
-    this.zombiesGeneratorVelocity = 2000;
-    this.zombiesProGeneratorVelocity = 5000;
+    this.zombiesGeneratorVelocity = 4000;
+    this.zombiesProGeneratorVelocity = 10000;
     this.boxesGeneratorVelocity = 10000;
     this.gamePoints = 0;
     this.canvas_loop = undefined;
@@ -37,51 +37,6 @@ class Game {
       zombie._move(zombie.direction)
     }
   }
-
-  /*
-  _generateObstacles() {
-    this.obstacles.push(new Obstacle([200, 150]));
-  }
-
-  _drawObstacles() {
-    const image = document.getElementById('obstacle');
-
-    this.obstacles.forEach(obstacle => {
-      this.context.drawImage(
-        image,
-        obstacle.position[0], obstacle.position[1], obstacle.size[0], obstacle.size[1]
-      );
-      let hitBullet = obstacle._recievesBullet(this.bullets)
-      if (hitBullet) {
-        this.bullets.splice(this.bullets.indexOf(hitBullet))
-      }
-
-
-      let hitPlayer = obstacle.hitPlayer(this.player)
-      if (hitPlayer) {
-        if (this.player.direction == "a") {
-          if (obstacle.position[0] < this.player.position[0]) {
-            this.player.position[0] += 10
-          }
-        }
-        if (this.player.direction == "s") {
-          if (obstacle.position[1] > this.player.position[1]) {
-            this.player.position[1] -= 10
-          }
-        }
-        if (this.player.direction == "w") {
-          if (obstacle.position[1] < this.player.position[1]) {
-            this.player.position[1] += 10
-          }
-        }
-        if (this.player.direction == "d") {
-          if (obstacle.position[0] < this.player.position[0]) {
-            this.player.position[0] -= 10
-          }
-        }
-      }
-    })
-  }*/
 
   _generateZombies() {
     this.zombies_loop = setInterval(function () {
@@ -279,6 +234,7 @@ class Game {
         }
         if (bullet.initialPosition[1] > bullet.position[1] + bullet.maxBulletDistance || bullet.initialPosition[1] < bullet.position[1] - bullet.maxBulletDistance) {
           this.bullets.splice(this.bullets.indexOf(bullet), 1)
+          bullet.destroy();
         }
       } else {
         if (bullet.direction == "d") {
@@ -296,6 +252,7 @@ class Game {
         }
         if (bullet.initialPosition[0] > bullet.position[0] + bullet.maxBulletDistance || bullet.initialPosition[0] < bullet.position[0] - bullet.maxBulletDistance) {
           this.bullets.splice(this.bullets.indexOf(bullet), 1)
+          bullet.destroy();
         }
       }
     });
@@ -330,6 +287,7 @@ class Game {
           zombie.position[0], zombie.position[1], 20, 20
         );
         this.bullets.splice(this.bullets.indexOf(hitBullet))
+        hitBullet.destroy()
 
         if (zombie.lifePoints <= 0) {
           this.gamePoints += 200
@@ -345,6 +303,7 @@ class Game {
         document.getElementById("hitEffect").play()
         this.player.lifePoints--;
         if (this.player.lifePoints <= 0) {
+          this.player.destroy()
           this._stop()
         }
 
@@ -446,7 +405,6 @@ class Game {
 
   _update() {
     this._cleanCanvas();
-    //this._drawObstacles();
     this._drawMunitions();
     this._drawWeapons();
     this._drawBullets();
@@ -469,6 +427,5 @@ class Game {
     this._generateZombiesPro();
     this._generateBoxes();
     this._generatePoints();
-    //this._generateObstacles();
   };
 }
